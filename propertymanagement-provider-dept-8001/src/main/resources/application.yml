@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8007
 
 eureka:
   client: #客户端注册进eureka服务列表内
