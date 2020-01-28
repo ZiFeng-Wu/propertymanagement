@@ -1,0 +1,3 @@
+com\scau\zifeng\cfgbeans\ConfigBean.class
+com\scau\zifeng\DeptConsumer80_Feign_App.class
+com\scau\zifeng\controller\DeptController_Feign.class

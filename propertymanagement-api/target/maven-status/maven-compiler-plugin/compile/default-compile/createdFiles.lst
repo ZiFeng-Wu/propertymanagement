@@ -1,0 +1,4 @@
+com\scau\zifeng\entities\Dept.class
+com\scau\zifeng\service\DeptClientServiceFallbackFactory.class
+com\scau\zifeng\service\DeptClientService.class
+com\scau\zifeng\service\DeptClientServiceFallbackFactory$1.class
