@@ -8,10 +8,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="propertymanagementproviderdept8001" />
         <module name="propertymanagementapi" />
-        <module name="propertymanagementeureka7003" />
+        <module name="propertymanagementproviderdepthystrixx8001" />
         <module name="propertymanagementeureka7002" />
         <module name="propertymanagementeureka7001" />
-        <module name="propertymanagementproviderdepthystrixx8001" />
+        <module name="propertymanagementeureka7003" />
         <module name="propertymanagementconsumerhystrixdashboard" />
         <module name="propertymanagementzuulgateway9527" />
         <module name="propertymanagementconsumerdeptfeign" />
