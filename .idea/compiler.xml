@@ -11,11 +11,14 @@
         <module name="propertymanagementproviderdepthystrixx8001" />
         <module name="propertymanagementeureka7002" />
         <module name="propertymanagementeureka7001" />
+        <module name="propertymanagementconsumerlandcloud5001" />
         <module name="propertymanagementeureka7003" />
         <module name="propertymanagementconsumerhystrixdashboard" />
         <module name="propertymanagementzuulgateway9527" />
+        <module name="propertymanagementfront7664" />
         <module name="propertymanagementconsumerdeptfeign" />
         <module name="propertymanagementconsumerdept8002" />
+        <module name="propertymanagementproviderlandcloud6001" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

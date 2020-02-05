@@ -18,6 +18,9 @@
         <module>propertymanagement-provider-dept-hystrixx-8001</module>
         <module>propertymanagement-consumer-hystrix-dashboard</module>
         <module>propertymanagement-zuul-gateway-9527</module>
+        <module>propertymanagement-provider-landcloud-6001</module>
+        <module>propertymanagement-consumer-landcloud-5001</module>
+        <module>propertymanagement-front-7664</module>
 
     </modules>
     <packaging>pom</packaging>

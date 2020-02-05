@@ -24,5 +24,5 @@ zuul:
   prefix: /zifeng
   ignored-services: "*"
   routes:
-    mydept.serviceId: propertymanagement-dept
-    mydept.path: /mydept/**
+    mydept.serviceId: propertymanagement-landcloud-consumer
+    mydept.path: /land/**
