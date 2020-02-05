@@ -1,0 +1,9 @@
+server:
+  port: 7664
+
+spring:
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    content-type: text/html
+    mode: LEGACYHTML5
