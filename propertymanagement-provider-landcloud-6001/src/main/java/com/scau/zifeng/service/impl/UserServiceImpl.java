@@ -34,4 +34,36 @@ public class UserServiceImpl implements UserService {
         System.out.println(name);
         return userMapper.selectByExample(ex);
     }
+
+    @Override
+    public int updateByPk(User user) {
+        User user2 = userMapper.selectByPrimaryKey(user.getId());
+        if(!user2.getPassword().equals(user.getPassword())&&user.getPassword()!=null)
+            user2.setPassword(user.getPassword());
+        if(!user2.getName().equals(user.getName())&&user.getName()!=null)
+            user2.setName(user.getName());
+        if(!user2.getAddress().equals(user.getAddress())&&user.getAddress()!=null)
+            user2.setAddress(user.getAddress());
+        if(!user2.getTelephone().equals(user.getTelephone())&&user.getTelephone()!=null)
+            user2.setTelephone(user.getTelephone());
+        if(!user2.getrId().equals(user.getrId())&&user.getrId()!=null)
+            user2.setrId(user.getrId());
+        return userMapper.updateByPrimaryKey(user2);
+    }
+
+    @Override
+    public List<User>  selectid(User user) {
+        UserExample ex = new UserExample();
+        UserExample.Criteria c = ex.createCriteria();
+        c.andNameEqualTo(user.getName());
+        System.out.println(user.getName());
+        return userMapper.selectByExample(ex);
+    }
+
+    @Override
+    public int delectUser(User user) {
+        return userMapper.deleteByPrimaryKey(user.getId());
+    }
+
+
 }

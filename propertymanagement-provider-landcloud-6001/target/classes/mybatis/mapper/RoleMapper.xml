@@ -97,8 +97,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.scau.zifeng.entities.Role">
+    alter table role auto_increment=1;
     insert into role (id, name)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR});
   </insert>
   <insert id="insertSelective" parameterType="com.scau.zifeng.entities.Role">
     insert into role

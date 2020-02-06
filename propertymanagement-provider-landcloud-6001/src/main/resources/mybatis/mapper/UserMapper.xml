@@ -101,12 +101,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.scau.zifeng.entities.User">
+    alter table user auto_increment=1;
     insert into user (id, name, password, 
       r_id, address, telephone
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{rId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}
-      )
+      );
   </insert>
   <insert id="insertSelective" parameterType="com.scau.zifeng.entities.User">
     insert into user
