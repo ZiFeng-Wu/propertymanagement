@@ -1,0 +1,3 @@
+com\scau\zifeng\cfgbeans\ConfigBean.class
+com\scau\zifeng\controller\PayController_Feign.class
+com\scau\zifeng\PayConsumer5101_App.class

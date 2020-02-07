@@ -1,6 +1,8 @@
+com\scau\zifeng\service\impl\UserServiceImpl.class
+com\scau\zifeng\service\impl\RoleServiceImpl.class
 com\scau\zifeng\controller\UserController.class
+com\scau\zifeng\service\RoleService.class
 com\scau\zifeng\LandProvider6001_App.class
 com\scau\zifeng\mapper\UserMapper.class
-com\scau\zifeng\service\impl\UserServiceImpl.class
 com\scau\zifeng\service\UserService.class
 com\scau\zifeng\mapper\RoleMapper.class

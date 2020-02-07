@@ -21,6 +21,8 @@
         <module>propertymanagement-provider-landcloud-6001</module>
         <module>propertymanagement-consumer-landcloud-5001</module>
         <module>propertymanagement-front-7664</module>
+        <module>propertymanagement-provider-paycloud-6101</module>
+        <module>propertymanagement-consumer-paycloud-5101</module>
 
     </modules>
     <dependencies>

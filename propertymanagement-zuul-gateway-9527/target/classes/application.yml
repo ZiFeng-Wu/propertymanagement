@@ -17,12 +17,15 @@ eureka:
 info:
   app.name: atguigu-microcloud
   company.name: www.atguigu.com
-  build.artifactId: propertymanagement-zuul-gateway-9527
-  build.version: 1.0-SNAPSHOT
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
 
 zuul:
   prefix: /zifeng
   ignored-services: "*"
   routes:
-    mydept.serviceId: propertymanagement-landcloud-consumer
-    mydept.path: /land/**
+    landcloud.serviceId: propertymanagement-landcloud-consumer
+    landcloud.path: /land/**
+    paycloud.serviceId: propertymanagement-paycloud-consumer
+    paycloud.path: /pay/**
+

@@ -1,9 +1,11 @@
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\DeptClientServiceFallbackFactory.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Dept.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\PayListExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\User.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\UserExample.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\PayClientService.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\PayList.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Role.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\DeptClientService.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\RoleExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\LandClientService.java
-G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\LandClientServiceFallbackFactory.java
