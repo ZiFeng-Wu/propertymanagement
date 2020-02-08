@@ -1,0 +1,5 @@
+com\scau\zifeng\controller\FaultRepairController.class
+com\scau\zifeng\mapper\FaultRepairMapper.class
+com\scau\zifeng\RepairProvider6201_App.class
+com\scau\zifeng\service\Impl\RepairServiceImpl.class
+com\scau\zifeng\service\RepairService.class

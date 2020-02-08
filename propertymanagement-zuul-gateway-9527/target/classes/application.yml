@@ -28,4 +28,8 @@ zuul:
     landcloud.path: /land/**
     paycloud.serviceId: propertymanagement-paycloud-consumer
     paycloud.path: /pay/**
+    repaircloud.serviceId: propertymanagement-repaircloud-consumer
+    repaircloud.path: /repair/**
+
+
 

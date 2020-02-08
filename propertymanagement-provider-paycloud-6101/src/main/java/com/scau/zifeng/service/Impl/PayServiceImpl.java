@@ -45,7 +45,6 @@ public class PayServiceImpl implements PayService {
             cal2.setTime(s1.getDate());
             if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)){
                 list2.add(s1);
-                System.out.println("ok");
             }
 
         }

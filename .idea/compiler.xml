@@ -18,9 +18,11 @@
         <module name="propertymanagementproviderlandcloud6001" />
         <module name="propertymanagementconsumerhystrixdashboard" />
         <module name="propertymanagementproviderdepthystrixx8001" />
+        <module name="propertymanagementconsumerrepair5201" />
         <module name="propertymanagementconsumerpaycloud5101" />
         <module name="propertymanagementconsumerlandcloud5001" />
         <module name="propertymanagementeureka7003" />
+        <module name="propertymanagementproviderrepair6201" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

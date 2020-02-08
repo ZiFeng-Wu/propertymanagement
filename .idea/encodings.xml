@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/propertymanagement-consumer-hystrix-dashboard" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-consumer-landcloud-5001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-consumer-paycloud-5101" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/propertymanagement-consumer-repair-5201" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-eureka-7001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-eureka-7002" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-eureka-7003" charset="UTF-8" />
@@ -16,6 +17,7 @@
     <file url="file://$PROJECT_DIR$/propertymanagement-provider-dept-hystrixx-8001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-provider-landcloud-6001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-provider-paycloud-6101" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/propertymanagement-provider-repair-6201" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/propertymanagement-zuul-gateway-9527" charset="UTF-8" />
   </component>
 </project>

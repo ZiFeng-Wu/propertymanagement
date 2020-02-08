@@ -67,10 +67,6 @@
             <artifactId>feign-httpclient</artifactId>
             <version>8.16.0</version>
         </dependency>
-
-
-
-
     </dependencies>
 
 

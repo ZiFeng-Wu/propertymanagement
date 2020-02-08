@@ -1,0 +1,3 @@
+com\scau\zifeng\cfgbeans\ConfigBean.class
+com\scau\zifeng\controller\RepairController_Feign.class
+com\scau\zifeng\RepairConsumer5201_App.class
