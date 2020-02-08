@@ -30,6 +30,8 @@ zuul:
     paycloud.path: /pay/**
     repaircloud.serviceId: propertymanagement-repaircloud-consumer
     repaircloud.path: /repair/**
+    materialcloud.serviceId: propertymanagement-materialcloud-consumer
+    materialcloud.path: /material/**
 
 
 

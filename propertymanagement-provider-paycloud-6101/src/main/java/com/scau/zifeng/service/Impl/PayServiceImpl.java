@@ -53,6 +53,7 @@ public class PayServiceImpl implements PayService {
 
     @Override
     public int addPay(PayList payList) {
+        payList.setStatus("未缴清");
         return payListMapper.insert(payList);
     }
 

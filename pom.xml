@@ -25,6 +25,8 @@
         <module>propertymanagement-consumer-paycloud-5101</module>
         <module>propertymanagement-provider-repair-6201</module>
         <module>propertymanagement-consumer-repair-5201</module>
+        <module>propertymanagement-provider-materiacloud-6301</module>
+        <module>propertymanagement-consumer-materiacloud-5301</module>
 
     </modules>
     <dependencies>
@@ -104,7 +106,7 @@
 
     <!--点击服务有提示信息-->
     <build>
-        <finalName>microservicecloud</finalName>
+        <finalName>propertymanagement</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

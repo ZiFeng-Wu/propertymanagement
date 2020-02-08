@@ -1,0 +1,26 @@
+server:
+  port: 5301
+
+feign:
+  httpclient:
+    enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    instance-id: microservicecloud-materialcloud5301
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: propertymanagement-materialcloud-consumer
+
+
+
+info:
+  app.name: zifeng-propertymanagement
+  company.name: www.scau.zifeng.com
+  build.artifactId: propertymanagement-consumer-materiacloud-5301
+  build.version: 1.0-SNAPSHOT

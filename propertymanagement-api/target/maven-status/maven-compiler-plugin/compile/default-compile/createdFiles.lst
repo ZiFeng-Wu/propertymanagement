@@ -1,10 +1,14 @@
 com\scau\zifeng\entities\RoleExample$Criteria.class
 com\scau\zifeng\entities\FaultRepairExample$GeneratedCriteria.class
+com\scau\zifeng\entities\MaterialPurchase.class
 com\scau\zifeng\entities\PayList.class
+com\scau\zifeng\entities\MaterialPurchaseExample.class
 com\scau\zifeng\entities\FaultRepairExample.class
 com\scau\zifeng\entities\User.class
 com\scau\zifeng\entities\FaultRepairExample$Criteria.class
+com\scau\zifeng\entities\MaterialPurchaseExample$Criteria.class
 com\scau\zifeng\entities\UserExample$Criteria.class
+com\scau\zifeng\service\MaterialClientService.class
 com\scau\zifeng\service\PayClientService.class
 com\scau\zifeng\entities\FaultRepair.class
 com\scau\zifeng\entities\PayListExample.class
@@ -24,4 +28,6 @@ com\scau\zifeng\entities\FaultRepairExample$Criterion.class
 com\scau\zifeng\entities\PayListExample$Criteria.class
 com\scau\zifeng\entities\PayListExample$GeneratedCriteria.class
 com\scau\zifeng\service\DeptClientServiceFallbackFactory.class
+com\scau\zifeng\entities\MaterialPurchaseExample$Criterion.class
 com\scau\zifeng\entities\PayListExample$Criterion.class
+com\scau\zifeng\entities\MaterialPurchaseExample$GeneratedCriteria.class
