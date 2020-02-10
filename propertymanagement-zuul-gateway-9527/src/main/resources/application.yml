@@ -32,6 +32,8 @@ zuul:
     repaircloud.path: /repair/**
     materialcloud.serviceId: propertymanagement-materialcloud-consumer
     materialcloud.path: /material/**
+    messagecloud.serviceId: propertymanagement-messagecloud-consumer
+    messagecloud.path: /message/**
 
 
 

@@ -27,6 +27,8 @@
         <module>propertymanagement-consumer-repair-5201</module>
         <module>propertymanagement-provider-materiacloud-6301</module>
         <module>propertymanagement-consumer-materiacloud-5301</module>
+        <module>propertymanagement-provider-message-6401</module>
+        <module>propertymanagement-consumer-message-5401</module>
 
     </modules>
     <dependencies>

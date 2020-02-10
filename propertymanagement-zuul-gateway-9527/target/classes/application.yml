@@ -17,8 +17,8 @@ eureka:
 info:
   app.name: atguigu-microcloud
   company.name: www.atguigu.com
-  build.artifactId: propertymanagement-zuul-gateway-9527
-  build.version: 1.0-SNAPSHOT
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
 
 zuul:
   prefix: /zifeng
@@ -32,6 +32,8 @@ zuul:
     repaircloud.path: /repair/**
     materialcloud.serviceId: propertymanagement-materialcloud-consumer
     materialcloud.path: /material/**
+    messagecloud.serviceId: propertymanagement-messagecloud-consumer
+    messagecloud.path: /message/**
 
 
 

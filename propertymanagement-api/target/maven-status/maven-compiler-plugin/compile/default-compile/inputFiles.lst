@@ -1,4 +1,6 @@
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\MaterialClientService.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\MessageBoardExample.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\MessageClientService.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Dept.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Role.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\RoleExample.java
@@ -12,6 +14,7 @@ G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\MaterialPurchase.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\PayList.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\DeptClientService.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\MessageBoard.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\FaultRepairExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\MaterialPurchaseExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\LandClientService.java

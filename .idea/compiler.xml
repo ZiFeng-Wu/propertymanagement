@@ -9,6 +9,7 @@
         <module name="propertymanagementzuulgateway9527" />
         <module name="propertymanagementproviderdept8001" />
         <module name="propertymanagementconsumerdeptfeign" />
+        <module name="propertymanagementprovidermessage6401" />
         <module name="propertymanagementfront7664" />
         <module name="propertymanagementconsumerdept8002" />
         <module name="propertymanagementapi" />
@@ -24,6 +25,7 @@
         <module name="propertymanagementconsumerlandcloud5001" />
         <module name="propertymanagementeureka7003" />
         <module name="propertymanagementproviderrepair6201" />
+        <module name="propertymanagementconsumermessage5401" />
         <module name="propertymanagementprovidermateriacloud6301" />
       </profile>
     </annotationProcessing>
