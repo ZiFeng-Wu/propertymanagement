@@ -34,5 +34,5 @@ spring:
 info:
   app.name: zifeng-propertymanagement
   company.name: www.scau.zifeng.com
-  build.artifactId: propertymanagement-provider-landcloud-6001
-  build.version: 1.0-SNAPSHOT
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

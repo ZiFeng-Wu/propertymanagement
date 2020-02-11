@@ -24,8 +24,7 @@ public class UserController {
 
     //插入User
     @RequestMapping(value="/user/add",method= RequestMethod.POST)
-    public int add(@RequestBody User user)
-    {
+    public int add(@RequestBody User user) throws Exception {
         return userService.add(user);
     }
 
@@ -48,20 +47,13 @@ public class UserController {
 
     //用户名密码验证
     @RequestMapping(value="/user/checkpass",method=RequestMethod.GET)
-    public @ResponseBody User checkpass(@RequestBody User user){
-        List<User> list = userService.findName(user.getName());
-        if(list.isEmpty())
-            return new User();
-        User user2 = list.get(0);
-        if(user2.getPassword().equals(user.getPassword()))
-            return user2;
-        else
-            return new User();
+    public @ResponseBody User checkpass(@RequestBody User user) throws Exception {
+        return userService.checkpasswd(user);
     }
 
     //更新用户信息
     @RequestMapping(value="/user/updatepk",method=RequestMethod.POST)
-    public int updatepk(@RequestBody User user){
+    public int updatepk(@RequestBody User user) throws Exception {
         return userService.updateByPk(user);
     }
 
