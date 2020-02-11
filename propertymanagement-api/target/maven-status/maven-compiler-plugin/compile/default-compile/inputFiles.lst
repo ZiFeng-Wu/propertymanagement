@@ -4,8 +4,11 @@ G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Dept.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Role.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\RoleExample.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\Complaint.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\ComplaintClientService.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\RepairClientService.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\service\DeptClientServiceFallbackFactory.java
+G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\ComplaintExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\PayListExample.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\User.java
 G:\idea\propertymanagement\propertymanagement-api\src\main\java\com\scau\zifeng\entities\UserExample.java

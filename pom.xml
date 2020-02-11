@@ -29,6 +29,8 @@
         <module>propertymanagement-consumer-materiacloud-5301</module>
         <module>propertymanagement-provider-message-6401</module>
         <module>propertymanagement-consumer-message-5401</module>
+        <module>propertymanagement-provider-complaint-6501</module>
+        <module>propertymanagement-consumer-complaint-5501</module>
 
     </modules>
     <dependencies>

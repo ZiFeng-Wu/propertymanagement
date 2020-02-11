@@ -19,10 +19,12 @@
         <module name="propertymanagementconsumermateriacloud5301" />
         <module name="propertymanagementproviderlandcloud6001" />
         <module name="propertymanagementconsumerhystrixdashboard" />
+        <module name="propertymanagementprovidercomplaint6501" />
         <module name="propertymanagementproviderdepthystrixx8001" />
         <module name="propertymanagementconsumerrepair5201" />
         <module name="propertymanagementconsumerpaycloud5101" />
         <module name="propertymanagementconsumerlandcloud5001" />
+        <module name="propertymanagementconsumercomplaint5501" />
         <module name="propertymanagementeureka7003" />
         <module name="propertymanagementproviderrepair6201" />
         <module name="propertymanagementconsumermessage5401" />
