@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateByPk(User user) throws  Exception{
         User user2 = userMapper.selectByPrimaryKey(user.getId());
-        if(!(verify(user.getPassword(),"19970825",user2.getPassword())||user2.getPassword().equalsIgnoreCase(user.getPassword())))
+        if(!(verify(user.getPassword(),"19970825",user2.getPassword())))
             user2.setPassword(md5(user.getPassword(),"19970825"));
         if(!user2.getName().equals(user.getName())&&user.getName()!=null)
             user2.setName(user.getName());
