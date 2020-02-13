@@ -1,0 +1,5 @@
+com\scau\zifeng\controller\MessageController.class
+com\scau\zifeng\mapper\MessageBoardMapper.class
+com\scau\zifeng\service\Impl\MessageServiceImpl.class
+com\scau\zifeng\service\MessageService.class
+com\scau\zifeng\MessageProvider6401_App.class

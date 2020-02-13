@@ -15,6 +15,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
+
     @Override
     public int add(Role role) {
         return roleMapper.insert(role);

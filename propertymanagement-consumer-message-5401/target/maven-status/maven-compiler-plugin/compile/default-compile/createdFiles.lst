@@ -1,0 +1,3 @@
+com\scau\zifeng\cfgbeans\ConfigBean.class
+com\scau\zifeng\controller\MessageController_Feign.class
+com\scau\zifeng\MessageConsumer5401_App.class

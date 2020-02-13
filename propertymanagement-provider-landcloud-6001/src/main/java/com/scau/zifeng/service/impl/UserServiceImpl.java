@@ -1,6 +1,5 @@
 package com.scau.zifeng.service.impl;
 
-import com.netflix.discovery.converters.Auto;
 import com.scau.zifeng.entities.User;
 import com.scau.zifeng.entities.UserExample;
 import com.scau.zifeng.mapper.UserMapper;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-
 import java.util.List;
 
 @Service
@@ -17,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
 
     public static String md5(String text, String key) throws Exception {
         //加密后的字符串

@@ -1,10 +1,17 @@
 package com.scau.zifeng.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FaultRepair {
+@NoArgsConstructor
+@Data
+@Accessors(chain=true)
+public class FaultRepair implements Serializable {
     private Long id;
 
     private String contents;

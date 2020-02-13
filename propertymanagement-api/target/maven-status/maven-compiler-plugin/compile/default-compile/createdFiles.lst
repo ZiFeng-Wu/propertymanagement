@@ -27,6 +27,7 @@ com\scau\zifeng\service\MessageClientService.class
 com\scau\zifeng\entities\ComplaintExample.class
 com\scau\zifeng\entities\Role.class
 com\scau\zifeng\service\RepairClientService.class
+com\scau\zifeng\config\RedisConfig$1.class
 com\scau\zifeng\entities\RoleExample$Criterion.class
 com\scau\zifeng\service\DeptClientServiceFallbackFactory$1.class
 com\scau\zifeng\entities\UserExample.class
@@ -40,6 +41,8 @@ com\scau\zifeng\entities\ComplaintExample$GeneratedCriteria.class
 com\scau\zifeng\entities\MessageBoard.class
 com\scau\zifeng\entities\MessageBoardExample$Criterion.class
 com\scau\zifeng\service\DeptClientServiceFallbackFactory.class
+com\scau\zifeng\config\RedisUtils.class
 com\scau\zifeng\entities\MaterialPurchaseExample$Criterion.class
 com\scau\zifeng\entities\PayListExample$Criterion.class
+com\scau\zifeng\config\RedisConfig.class
 com\scau\zifeng\entities\MaterialPurchaseExample$GeneratedCriteria.class
