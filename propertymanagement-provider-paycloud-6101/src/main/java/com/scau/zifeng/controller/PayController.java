@@ -1,5 +1,6 @@
 package com.scau.zifeng.controller;
 
+import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.PayList;
 import com.scau.zifeng.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ public class PayController {
     @Autowired
     private PayService payService;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
     //查看当前用户待缴费清单
     @RequestMapping(value="/pay/findselpay/{id}",method = RequestMethod.GET)
     public @ResponseBody List<PayList> findSelfPay(@PathVariable("id") Long id){
@@ -21,6 +25,7 @@ public class PayController {
     //修改缴费状态
     @RequestMapping(value="/pay/changestatus/{id}",method = RequestMethod.POST)
     public int changePayStatus(@PathVariable("id") Long id){
+        redisUtils.remove("allnopay");
         return payService.changePayStatus(id);
     }
 
@@ -34,13 +39,17 @@ public class PayController {
     //物业管理员插入缴费信息
     @RequestMapping(value="/pay/addpay",method = RequestMethod.POST)
     public int addPay(@RequestBody  PayList payList){
+        redisUtils.remove("allnopay");
         return payService.addPay(payList);
     }
 
     //物业管理员获取系统当前所有未缴费清单
     @RequestMapping(value = "/pay/findallnopay",method = RequestMethod.GET)
     public @ResponseBody  List<PayList> findAllNoPay(){
-        return payService.findAllNoPay();
+        boolean haskey = redisUtils.exists("allnopay");
+        if(!haskey)
+            redisUtils.set("allnopay",payService.findAllNoPay());
+        return (List<PayList>)redisUtils.get("allnopay");
     }
 
     //物业管理员传入uID来查询该用户所有缴费信息

@@ -2,6 +2,7 @@ package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
+import com.scau.zifeng.entities.UserDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,9 @@ public interface LandClientService {
 
 
     //用户名密码验证
-    @RequestMapping(value="/user/checkpass",method=RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody User checkpass(@RequestBody User user);
+    @RequestMapping(value="/user/checkpass",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    UserDto checkpass(@RequestBody User user);
 
     //更新用户信息
     @RequestMapping(value="/user/updatepk",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)

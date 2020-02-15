@@ -3,8 +3,10 @@ package com.scau.zifeng.controller;
 import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
+import com.scau.zifeng.entities.UserDto;
 import com.scau.zifeng.service.RoleService;
 import com.scau.zifeng.service.UserService;
+import com.scau.zifeng.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +30,8 @@ public class UserController {
     //插入User
     @RequestMapping(value="/user/add",method= RequestMethod.POST)
     public int add(@RequestBody User user) throws Exception {
-        redisUtils.set(user.getId().toString(),user,100L, TimeUnit.MINUTES);
-        redisUtils.set(user.getName(),user.getId().toString(),100L, TimeUnit.MINUTES);
+        redisUtils.set(user.getId().toString(),user,10L, TimeUnit.MINUTES);
+        redisUtils.set(user.getName(),user.getId().toString(),10L, TimeUnit.MINUTES);
         return userService.add(user);
     }
 
@@ -47,7 +49,8 @@ public class UserController {
             //从数据库中获取信息
             user = userService.get(id);
             //数据插入缓存（set中的参数含义：key值，user对象，缓存存在时间10（long类型），时间单位）
-            redisUtils.set(id.toString(),user,100L, TimeUnit.MINUTES);
+            redisUtils.set(id.toString(),user,10l, TimeUnit.MINUTES);
+            redisUtils.set(user.getName(),user.getId().toString(),10L, TimeUnit.MINUTES);
         }
 
         return user;
@@ -65,17 +68,28 @@ public class UserController {
     }
 
     //用户名密码验证
-    @RequestMapping(value="/user/checkpass",method=RequestMethod.GET)
-    public @ResponseBody User checkpass(@RequestBody User user) throws Exception {
-        return userService.checkpasswd(user);
+    @RequestMapping(value="/user/checkpass",method=RequestMethod.POST)
+    public @ResponseBody UserDto checkpass(@RequestBody User user) throws Exception {
+
+        UserDto userDto= new UserDto();
+        User user2 = userService.checkpasswd(user);
+        if(user2!=null){
+            String token = TokenUtil.genUniqueKey(user2.getName());
+            redisUtils.set(token,user2.getId().toString(),30L,TimeUnit.MINUTES);
+            userDto.setToken(token);
+
+        }
+        userDto.setUser(user2);
+        return userDto;
     }
 
     //更新用户信息
     @RequestMapping(value="/user/updatepk",method=RequestMethod.POST)
     public int updatepk(@RequestBody User user) throws Exception {
         int reback = userService.updateByPk(user);
-        redisUtils.set(user.getId().toString(),userService.get(user.getId()),100L, TimeUnit.MINUTES);
-        redisUtils.set(user.getName(),user.getId().toString(),100L, TimeUnit.MINUTES);
+        redisUtils.set(user.getId().toString(),userService.get(user.getId()),10L, TimeUnit.MINUTES);
+        redisUtils.set(user.getName(),user.getId().toString(),10L, TimeUnit.MINUTES);
+
         return reback;
     }
 
@@ -92,7 +106,8 @@ public class UserController {
     //输入id删除用户
     @RequestMapping(value="/user/deleteuser",method=RequestMethod.POST)
     public int deleteUser(@RequestBody User user){
-
+        redisUtils.remove(userService.get(user.getId()).getName());
+        redisUtils.remove(user.getId().toString());
         return userService.delectUser(user);
     }
 
@@ -100,7 +115,7 @@ public class UserController {
     @RequestMapping(value="/role/add",method=RequestMethod.POST)
     public int addrole(@RequestBody Role role){
         int reback = roleService.add(role);
-        redisUtils.set("RoleList",roleService.get(),100L, TimeUnit.MINUTES);
+        redisUtils.set("RoleList",roleService.get(),10L, TimeUnit.MINUTES);
         return reback;
     }
 
@@ -108,7 +123,7 @@ public class UserController {
     @RequestMapping(value="/role/update",method = RequestMethod.GET)
     public @ResponseBody List<Role> update(@RequestBody Role role){
         int reback = roleService.update(role);
-        redisUtils.set("RoleList",roleService.get(),100L, TimeUnit.MINUTES);
+        redisUtils.remove("RoleList");
         return (List<Role>)redisUtils.get("RoleList");
     }
 
@@ -126,7 +141,7 @@ public class UserController {
             //从数据库中获取信息
             roleList = roleService.get();
             //数据插入缓存（set中的参数含义：key值，user对象，缓存存在时间10（long类型），时间单位）
-            redisUtils.set("RoleList",roleService.get(),100L, TimeUnit.MINUTES);
+            redisUtils.set("RoleList",roleService.get(),10L, TimeUnit.MINUTES);
         }
         return roleList;
     }
@@ -134,9 +149,8 @@ public class UserController {
     //删除某个角色
     @RequestMapping(value="/role/delete",method = RequestMethod.GET)
     public int delete(@RequestBody Role role){
-        int reback = roleService.delete(role);
-        redisUtils.set("RoleList",roleService.get(),100L, TimeUnit.MINUTES);
-        return reback;
+        redisUtils.remove("RoleList");
+        return roleService.delete(role);
     }
 
 

@@ -2,9 +2,9 @@ package com.scau.zifeng.controller;
 
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
+import com.scau.zifeng.entities.UserDto;
 import com.scau.zifeng.service.LandClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +44,9 @@ public class LandController_Feign {
 
 
     //用户名密码验证
-    @RequestMapping(value="/consumer/user/checkpass",method=RequestMethod.GET)
-    public @ResponseBody User checkpass(@RequestBody User user){
+    @RequestMapping(value="/consumer/user/checkpass",method=RequestMethod.POST)
+    public @ResponseBody
+    UserDto checkpass(@RequestBody User user){
         return this.landClientService.checkpass(user);
     }
 

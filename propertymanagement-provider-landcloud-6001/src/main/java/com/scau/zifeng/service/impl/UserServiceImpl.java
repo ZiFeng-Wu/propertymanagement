@@ -4,9 +4,9 @@ import com.scau.zifeng.entities.User;
 import com.scau.zifeng.entities.UserExample;
 import com.scau.zifeng.mapper.UserMapper;
 import com.scau.zifeng.service.UserService;
+import com.scau.zifeng.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -17,29 +17,12 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
 
-    public static String md5(String text, String key) throws Exception {
-        //加密后的字符串
-        String encodeStr= DigestUtils.md5DigestAsHex((text + key).getBytes());
-        System.out.println("MD5加密后的字符串为:encodeStr="+encodeStr);
-        return encodeStr;
-    }
 
-    public static boolean verify(String text, String key, String md5) throws Exception {
-        //根据传入的密钥进行验证
-        String md5Text = md5(text, key);
-        if(md5Text.equalsIgnoreCase(md5))
-        {
-            System.out.println("MD5验证通过");
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public int add(User user) throws Exception{
         String password = user.getPassword();
-        user.setPassword(md5(password,"19970825"));
+        user.setPassword(Md5Util.md5(password,"19970825"));
         return userMapper.insert(user);
     }
 
@@ -61,8 +44,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateByPk(User user) throws  Exception{
         User user2 = userMapper.selectByPrimaryKey(user.getId());
-        if(!(verify(user.getPassword(),"19970825",user2.getPassword())))
-            user2.setPassword(md5(user.getPassword(),"19970825"));
+        if(!(Md5Util.verify(user.getPassword(),"19970825",user2.getPassword())))
+            user2.setPassword(Md5Util.md5(user.getPassword(),"19970825"));
         if(!user2.getName().equals(user.getName())&&user.getName()!=null)
             user2.setName(user.getName());
         if(!user2.getAddress().equals(user.getAddress())&&user.getAddress()!=null)
@@ -94,7 +77,7 @@ public class UserServiceImpl implements UserService {
         if(list.isEmpty())
             return new User();
         User user2 = list.get(0);
-        if(verify(user.getPassword(),"19970825",user2.getPassword()))
+        if(Md5Util.verify(user.getPassword(),"19970825",user2.getPassword()))
             return user2;
         else
             return new User();

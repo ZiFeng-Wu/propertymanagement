@@ -1,5 +1,6 @@
 package com.scau.zifeng.controller;
 
+import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.MaterialPurchase;
 import com.scau.zifeng.service.MateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,13 @@ import java.util.List;
 public class MateriaController {
     @Autowired
     private MateriaService materiaService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     //插入物资采购清单
     @RequestMapping(value="/material/addmaterial",method = RequestMethod.POST)
     public int addMateria(@RequestBody MaterialPurchase materialPurchase){
+        redisUtils.remove("allnodeal");
         return materiaService.addMateria(materialPurchase);
     }
 
@@ -27,7 +31,10 @@ public class MateriaController {
     //查看当前所有未审批物资采购清单
     @RequestMapping(value = "/material/findnodeal",method = RequestMethod.GET)
     public @ResponseBody List<MaterialPurchase> findNoDeal(){
-        return materiaService.findNoDeal();
+        boolean haskey = redisUtils.exists("allnodeal");
+        if(!haskey)
+            redisUtils.set("allnodeal",materiaService.findNoDeal());
+        return (List<MaterialPurchase>)redisUtils.get("allnodeal");
     }
 
     //传入日期查看物资采购清单
@@ -39,6 +46,7 @@ public class MateriaController {
     //审批采购清单
     @RequestMapping(value = "/materialchangestatus/{id}",method = RequestMethod.POST)
     public int changeStatus(@PathVariable("id") Long id){
+        redisUtils.remove("allnodeal");
         return materiaService.changeStatus(id);
     }
 

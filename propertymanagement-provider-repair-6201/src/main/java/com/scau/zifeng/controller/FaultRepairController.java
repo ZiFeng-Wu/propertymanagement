@@ -1,5 +1,6 @@
 package com.scau.zifeng.controller;
 
+import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.FaultRepair;
 import com.scau.zifeng.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,20 @@ public class FaultRepairController {
     @Autowired
     private RepairService repairService;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
     //插入故障报修
     @RequestMapping(value="/repair/addrepair",method = RequestMethod.POST)
     public int addRepair(@RequestBody FaultRepair faultRepair){
+        redisUtils.remove("allnorepair");
         return repairService.addRepair(faultRepair);
     }
 
     //修改故障报修状态
     @RequestMapping(value="/repair/changestatus",method = RequestMethod.POST)
     public int changeStatus(@RequestBody FaultRepair faultRepair){
+        redisUtils.remove("allnorepair");
         return repairService.changeStatus(faultRepair);
     }
 
@@ -33,7 +39,10 @@ public class FaultRepairController {
     //查找当前未处理故障
     @RequestMapping(value = "/repair/findnorepair",method = RequestMethod.GET)
     public @ResponseBody List<FaultRepair> findNoRepair(){
-        return repairService.findNoRepair();
+        boolean haskey = redisUtils.exists("allnorepair");
+        if(!haskey)
+            redisUtils.set("allnorepair",repairService.findNoRepair());
+        return (List<FaultRepair>)redisUtils.get("allnorepair");
     }
 
     //按日期查找故障报修清单
