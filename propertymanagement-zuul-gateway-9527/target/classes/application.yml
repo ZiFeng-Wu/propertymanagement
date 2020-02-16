@@ -30,7 +30,14 @@ info:
   build.artifactId: $project.artifactId$
   build.version: $project.version$
 
+
+
+
+
 zuul:
+  SendErrorFilter:
+    error:
+      disable: true
   prefix: /zifeng
   ignored-services: "*"
   routes:

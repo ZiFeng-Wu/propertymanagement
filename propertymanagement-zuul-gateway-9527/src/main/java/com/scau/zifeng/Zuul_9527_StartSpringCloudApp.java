@@ -12,4 +12,6 @@ public class Zuul_9527_StartSpringCloudApp
     {
         SpringApplication.run(Zuul_9527_StartSpringCloudApp.class, args);
     }
+
+
 }

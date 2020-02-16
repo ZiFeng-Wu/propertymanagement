@@ -74,11 +74,16 @@ public class UserController {
         UserDto userDto= new UserDto();
         User user2 = userService.checkpasswd(user);
         if(user2!=null){
-            String token = TokenUtil.genUniqueKey(user2.getName());
-            redisUtils.set(token,user2.getId().toString(),30L,TimeUnit.MINUTES);
-            userDto.setToken(token);
-
+            if(redisUtils.exists(user2.getId().toString()+"token"))
+                userDto.setToken(redisUtils.get(user2.getId().toString()+"token").toString());
+            else{
+                String token = TokenUtil.genUniqueKey(user2.getName());
+                redisUtils.set(token,user2.getId().toString(),30L,TimeUnit.MINUTES);
+                redisUtils.set(user2.getId().toString()+"token",token,30L, TimeUnit.MINUTES);
+                userDto.setToken(token);
+            }
         }
+
         userDto.setUser(user2);
         return userDto;
     }
