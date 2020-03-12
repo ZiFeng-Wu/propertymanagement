@@ -8,6 +8,7 @@ com\scau\zifeng\service\LandClientService.class
 com\scau\zifeng\entities\RoleExample.class
 com\scau\zifeng\service\DeptClientService.class
 com\scau\zifeng\entities\ComplaintExample$Criteria.class
+com\scau\zifeng\jsonFormat\JsonFormat.class
 com\scau\zifeng\entities\Dept.class
 com\scau\zifeng\service\MessageClientService.class
 com\scau\zifeng\entities\ComplaintExample.class

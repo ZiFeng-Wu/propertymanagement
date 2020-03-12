@@ -39,6 +39,7 @@ public class AuthFilter extends ZuulFilter {
     //排除过滤的 uri 地址
     private static final String LOGIN_URI = "/zifeng/land/consumer/user/checkpass";
     private static final String REGISTER_URI = "/zifeng/land/consumer/user/add";
+    private static final String FINDNAME_URI = "/zifeng/land/consumer/user/findname";
 
     //无权限时的提示语
     private static final String INVALID_TOKEN = "invalid token";
@@ -61,7 +62,8 @@ public class AuthFilter extends ZuulFilter {
 
         //注册和登录接口不拦截，其他接口都要拦截校验 token
         if (LOGIN_URI.equals(request.getRequestURI()) ||
-                REGISTER_URI.equals(request.getRequestURI())) {
+                REGISTER_URI.equals(request.getRequestURI()) ||
+                    FINDNAME_URI.equals(request.getRequestURI())) {
             return false;
         }
         return true;
@@ -106,11 +108,13 @@ public class AuthFilter extends ZuulFilter {
         //验证后台是否存在该token
         if (redisUtils.get(token) == null) {
             setUnauthorizedResponse(requestContext, INVALID_TOKEN);
+
         }
         //验证token和id是否匹配
         if(!redisUtils.get(token).toString().equals(id)){
             setUnauthorizedResponse(requestContext, INVALID_USERID);
         }
+       // authorizedResponse(requestContext,"");
     }
 
 
@@ -118,6 +122,7 @@ public class AuthFilter extends ZuulFilter {
      * 设置 401 无权限状态
      */
     private void setUnauthorizedResponse(RequestContext requestContext, String msg) {
+        System.out.println("错误了");
         requestContext.setSendZuulResponse(false);
         requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
 
@@ -129,4 +134,17 @@ public class AuthFilter extends ZuulFilter {
 
         requestContext.setResponseBody(result);
     }
+//    private void authorizedResponse(RequestContext requestContext,String msg){
+//        requestContext.setSendZuulResponse(true);
+//
+//        requestContext.setResponseStatusCode(HttpStatus.OK.value());
+//
+//        ResultVo vo = new ResultVo();
+//        vo.setErrorCode("0");
+//        vo.setMsg(msg);
+//        Gson gson = new Gson();
+//        String result = gson.toJson(vo);
+//
+//        requestContext.setResponseBody(result);
+//    }
 }

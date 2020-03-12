@@ -1,6 +1,7 @@
 package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.PayList;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public interface PayClientService {
     //查看当前用户待缴费清单
     @RequestMapping(value="/pay/findselpay/{id}",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<PayList> findSelfPay(@PathVariable("id") Long id);
+    JsonFormat findSelfPay(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit);
 
     //修改缴费状态
     @RequestMapping(value="/pay/changestatus/{id}",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -21,8 +22,8 @@ public interface PayClientService {
 
 
     //按时间查看缴费信息
-    @RequestMapping(value="/pay/findtimepay",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody  List<PayList> findTimePay(@RequestBody PayList payList);
+    @RequestMapping(value="/pay/findtimepay",method = RequestMethod.GET,consumes = "text/html")
+    public @ResponseBody JsonFormat findTimePay( @RequestParam(value="page") String page, @RequestParam(value="limit") String limit, @RequestParam(value="uId") Long uId,@RequestParam(value="date") String date);
 
     //物业管理员插入缴费信息
     @RequestMapping(value="/pay/addpay",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -34,5 +35,8 @@ public interface PayClientService {
 
     //物业管理员传入uID来查询该用户所有缴费信息
     @RequestMapping(value = "/pay/findallpay/{id}",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<PayList> findAllPay(@PathVariable("id") Long id);
+    public @ResponseBody
+    JsonFormat findAllPay(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit);
+
+
 }

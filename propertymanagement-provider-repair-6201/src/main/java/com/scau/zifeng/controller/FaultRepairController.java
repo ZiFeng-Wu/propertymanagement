@@ -6,7 +6,9 @@ import com.scau.zifeng.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FaultRepairController {
@@ -32,8 +34,12 @@ public class FaultRepairController {
 
     //查找个人故障报修历史
     @RequestMapping(value="/repair/findselfrepair/{id}",method = RequestMethod.GET)
-    public @ResponseBody  List<FaultRepair> findselfRepair(@PathVariable("id") Long id){
-        return repairService.findselfRepair(id);
+    public @ResponseBody  Map<String, Object> findselfRepair(@PathVariable("id") Long id){
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",0);
+        map.put("msg","");
+        map.put("date",repairService.findselfRepair(id));
+        return map;
     }
 
     //查找当前未处理故障

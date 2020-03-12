@@ -1,16 +1,13 @@
 package com.scau.zifeng.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.scau.zifeng.entities.Dept;
 import com.scau.zifeng.service.DeptService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DeptController
@@ -25,9 +22,13 @@ public class DeptController
     }
 
     @RequestMapping(value="/dept/get/{id}",method=RequestMethod.GET)
-    public Dept get(@PathVariable("id") Long id)
+    public Map<String,Object> get(@PathVariable("id") Long id)
     {
-        return service.get(id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",0);
+        map.put("msg","");
+        map.put("date",service.get(id));
+        return map;
     }
 
     @RequestMapping(value="/dept/list",method=RequestMethod.GET)

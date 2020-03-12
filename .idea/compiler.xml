@@ -6,29 +6,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="propertymanagementzuulgateway9527" />
-        <module name="propertymanagementproviderdept8001" />
-        <module name="propertymanagementconsumerdeptfeign" />
-        <module name="propertymanagementprovidermessage6401" />
         <module name="propertymanagementfront7664" />
+        <module name="propertymanagementproviderdept8001" />
+        <module name="propertymanagementconsumermateriacloud5301" />
+        <module name="propertymanagementeureka7002" />
+        <module name="propertymanagementprovidermessage6401" />
+        <module name="propertymanagementproviderlandcloud6001" />
         <module name="propertymanagementconsumerdept8002" />
         <module name="propertymanagementapi" />
-        <module name="propertymanagementeureka7002" />
+        <module name="propertymanagementconsumercomplaint5501" />
         <module name="propertymanagementeureka7001" />
         <module name="propertymanagementproviderpaycloud6101" />
-        <module name="propertymanagementconsumermateriacloud5301" />
-        <module name="propertymanagementproviderlandcloud6001" />
+        <module name="propertymanagementconsumerdeptfeign" />
+        <module name="propertymanagementeureka7003" />
+        <module name="propertymanagementprovidermateriacloud6301" />
         <module name="propertymanagementconsumerhystrixdashboard" />
-        <module name="propertymanagementprovidercomplaint6501" />
         <module name="propertymanagementproviderdepthystrixx8001" />
         <module name="propertymanagementconsumerrepair5201" />
         <module name="propertymanagementconsumerpaycloud5101" />
         <module name="propertymanagementconsumerlandcloud5001" />
-        <module name="propertymanagementconsumercomplaint5501" />
-        <module name="propertymanagementeureka7003" />
+        <module name="propertymanagementzuulgateway9527" />
         <module name="propertymanagementproviderrepair6201" />
         <module name="propertymanagementconsumermessage5401" />
-        <module name="propertymanagementprovidermateriacloud6301" />
+        <module name="propertymanagementprovidercomplaint6501" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

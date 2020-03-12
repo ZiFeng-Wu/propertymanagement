@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(value="propertymanagement-landcloud")
 public interface LandClientService {
@@ -24,8 +25,9 @@ public interface LandClientService {
 
 
     //查找是否有该用户名已存在
-    @RequestMapping(value="/user/findname",method=RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public int findname(@RequestBody User user);
+    @RequestMapping(value="/user/findname",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public  @ResponseBody
+    Map<String,Object> findname(@RequestBody User user);
 
 
     //用户名密码验证

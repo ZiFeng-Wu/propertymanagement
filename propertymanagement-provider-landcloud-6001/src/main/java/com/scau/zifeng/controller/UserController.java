@@ -10,7 +10,9 @@ import com.scau.zifeng.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -30,9 +32,10 @@ public class UserController {
     //插入User
     @RequestMapping(value="/user/add",method= RequestMethod.POST)
     public int add(@RequestBody User user) throws Exception {
-        redisUtils.set(user.getId().toString(),user,10L, TimeUnit.MINUTES);
-        redisUtils.set(user.getName(),user.getId().toString(),10L, TimeUnit.MINUTES);
-        return userService.add(user);
+        int state =userService.add(user);
+        redisUtils.set(userService.findName(user.getName()).get(0).getId().toString(),userService.findName(user.getName()).get(0),10L, TimeUnit.MINUTES);
+        redisUtils.set(user.getName(),userService.findName(user.getName()).get(0).getId().toString(),10L, TimeUnit.MINUTES);
+        return state;
     }
 
     //根据id查询用户
@@ -57,13 +60,25 @@ public class UserController {
     }
 
     //查找是否有该用户名已存在
-    @RequestMapping(value="/user/findname",method=RequestMethod.GET)
-    public int findname(@RequestBody User user){
+    @RequestMapping(value="/user/findname",method=RequestMethod.POST)
+    public @ResponseBody
+    Map<String,Object> findname(@RequestBody User user){
         List<User> list = userService.findName(user.getName());
-        if(redisUtils.exists(user.getName())||!list.isEmpty())
-            return 0;
-        else
-            return 1;
+        Map<String,Object> map = new HashMap<String,Object>();
+        if(redisUtils.exists(user.getName())||!list.isEmpty()){
+            if(!list.isEmpty())
+            map.put("user",list.get(0));
+            else
+            map.put("user",redisUtils.get(user.getName()));
+        }
+        else{
+            User user2 = new User();
+            user2.setId(Long.parseLong("-1"));
+            map.put("user",user2);
+        }
+
+        return map;
+
 
     }
 

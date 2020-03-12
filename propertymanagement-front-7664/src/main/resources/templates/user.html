@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+   		<title>居民</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+		<title></title>
+	</head>
+	<script  type="text/javascript">
+		function load(){
+			$("#userName").html("<span class='layui-icon'>&#xe66f;</span>"+JSON.parse(localStorage.getItem('user')).name);
+		}
+	</script>
+	<body class="layui-layout-body" onload="load();">
+		<div class="layui-layout layui-layout-admin">
+		  <div class="layui-header">
+		    <div class="layui-logo" style="font-size: 20px;">居民</div>
+		    <!-- 头部区域（可配合layui已有的水平导航） -->
+		    
+		    <ul class="layui-nav layui-layout-right">
+		      <li class="layui-nav-item">
+		        <a href="javascript:;" id="userName">
+		      		aaa
+		        </a>
+		        <dl class="layui-nav-child">
+		          <dd><a href="">信息中心</a></dd>
+		          <dd><a href="">修改密码</a></dd>
+		        </dl>
+		      </li>
+		      <li class="layui-nav-item"><a href="login.html" onclick="localStorage.clear();">退出</a></li>
+		    </ul>
+		  </div>
+		  
+		  <div class="layui-side layui-bg-black">
+		    <div class="layui-side-scroll">
+		      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+		      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+		        <li class="layui-nav-item layui-nav-itemed">
+		          <a class="" href="javascript:;">缴费信息</a>
+		          <dl class="layui-nav-child">
+		            <dd><a href="#" onclick="$('#frame').attr('src','payList.html')">待缴费清单</a></dd>
+		            <dd><a href="#" onclick="$('#frame').attr('src','payHistory.html')">缴费历史</a></dd>
+		          </dl>
+		        </li>
+		        <li class="layui-nav-item">
+		          <a href="javascript:;">故障报修</a>
+		          <dl class="layui-nav-child">
+		            <dd><a href="javascript:;">故障申报</a></dd>
+		            <dd><a href="javascript:;">报修历史</a></dd>
+		          </dl>
+		        </li>
+		       <li class="layui-nav-item">
+		          <a href="javascript:;">留言板</a>
+		          <dl class="layui-nav-child">
+		            <dd><a href="javascript:;">查看留言板</a></dd>
+		            <dd><a href="javascript:;">留言</a></dd>
+		          </dl>
+		        </li>
+		        <li class="layui-nav-item">
+		          <a href="javascript:;">发起投诉</a>
+		          
+		        </li>
+		      </ul>
+		    </div>
+		  </div>
+		  
+		  <div class="layui-body">
+		    <!-- 内容主体区域 -->
+		    <iframe  width="100%" height="100%" frameborder="0" id="frame">
+				</iframe>
+		  </div>
+		  
+		  <div class="layui-footer">
+		    <!-- 底部固定区域 -->
+		    © zf物业管理系统
+		  </div>
+		</div>
+		<script src="layui/layui.js"></script>
+		<script>
+		//JavaScript代码区域
+		layui.use('element', function(){
+		  var element = layui.element;
+		  
+		});
+
+		</script>
+</body>
+
+</html>

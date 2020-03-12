@@ -1,6 +1,7 @@
 package com.scau.zifeng.controller;
 
 import com.scau.zifeng.entities.PayList;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.PayClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class PayController_Feign {
     //查看当前用户待缴费清单
     @RequestMapping(value="/consumer/pay/findselpay/{id}",method = RequestMethod.GET)
     public @ResponseBody
-    List<PayList> findSelfPay(@PathVariable("id") Long id){
-        return this.payClientService.findSelfPay(id);
+    JsonFormat findSelfPay(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+        return payClientService.findSelfPay(id,page,limit);
     }
 
     //修改缴费状态
@@ -29,8 +30,8 @@ public class PayController_Feign {
 
     //按时间查看缴费信息
     @RequestMapping(value="/consumer/pay/findtimepay",method = RequestMethod.GET)
-    public @ResponseBody  List<PayList> findTimePay(@RequestBody PayList payList){
-        return this.payClientService.findTimePay(payList);
+    public @ResponseBody  JsonFormat findTimePay(@RequestParam(value="page") String page, @RequestParam(value="limit") String limit,@RequestParam(value="uId") Long uId,@RequestParam(value="date") String date){
+        return this.payClientService.findTimePay(page,limit,uId,date);
     }
 
     //物业管理员插入缴费信息
@@ -47,8 +48,9 @@ public class PayController_Feign {
 
     //物业管理员传入uID来查询该用户所有缴费信息
     @RequestMapping(value = "/consumer/pay/findallpay/{id}",method = RequestMethod.GET)
-    public @ResponseBody List<PayList> findAllPay(@PathVariable("id") Long id){
-        return this.payClientService.findAllPay(id);
+    public @ResponseBody
+    JsonFormat findAllPay(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+        return this.payClientService.findAllPay(id,page,limit);
     }
 
 }

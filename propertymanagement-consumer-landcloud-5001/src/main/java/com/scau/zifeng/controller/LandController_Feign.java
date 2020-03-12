@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class LandController_Feign {
@@ -30,8 +31,9 @@ public class LandController_Feign {
 
 
     //查找是否有该用户名已存在
-    @RequestMapping(value="/consumer/user/findname",method=RequestMethod.GET)
-    public int findname(@RequestBody User user){
+    @RequestMapping(value="/consumer/user/findname",method=RequestMethod.POST)
+    public @ResponseBody
+    Map<String,Object> findname(@RequestBody User user){
         System.out.println(user.getName());
         return this.landClientService.findname(user);
     }

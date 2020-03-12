@@ -38,6 +38,8 @@ zuul:
   SendErrorFilter:
     error:
       disable: true
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
   prefix: /zifeng
   ignored-services: "*"
   routes:

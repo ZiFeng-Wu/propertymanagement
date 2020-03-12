@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>居民缴费历史查询</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+	<h1 style="padding: 20px;">缴费历史</h1>
+	<hr>
+	<div style="padding: 5px;">
+		
+	<div class="demoTable layui-form layui-form-item">	 
+	    <div class="layui-inline">
+	      <label class="layui-form-label"> 搜索日期：</label>
+	        <input type="text" class="layui-input layui-input-inline" id="demoReload"  >
+	         <button class="layui-btn" data-type="reload" id="search">搜索</button>
+	    </div>  
+	</div>
+		
+	<table class="layui-hide" id="payList" lay-filter="payList"></table>
+	
+	
+	
+	</div>
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		var uId = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#payList'
+		    ,url:"http://myzuul.com:9527/zifeng/pay/consumer/pay/findallpay/"+JSON.parse(localStorage.getItem('user')).id
+		    ,title: '用户缴费清单历史'
+		    ,totalRow: true
+		    ,headers: {token: localStorage.getItem('token'), id:uId}
+		    ,limit:10
+		    ,limits:[10,20,30,40,50,60]
+		    ,page:true
+		    ,cols: [[
+		      {field:'id', title:'ID', width:240, fixed: 'left', unresize: true, sort: true, totalRowText: '合计',align:'center'}
+		      ,{field:'contents', title:'缴费内容', width:240,align:'center', unresize: true}
+		      ,{field:'amount', title:'缴费金额(元)', width:240,  totalRow: true,align:'center', unresize: true}
+		      ,{field:'status', title:'缴费状态', width:240,align:'center', unresize: true}
+		      ,{field:'date', title:'发布日期', sort: true,align:'center', unresize: true}	     
+		      
+		    ]]
+		   
+		    ,width:1650
+		    ,id: 'Reload'
+		  });
+		  
+		   laydate.render({
+		    elem: '#demoReload'
+		    ,type:'datetime'
+		    ,value: '2020-3-11 17:58:00'
+		  });
+		 
+		  $("#search").click(function(){
+		  	var demoReload = $('#demoReload');
+
+			 var param = {
+				  	"uId":uId,
+				  	"date":demoReload.val()	  	
+		 	}
+
+		
+		      //执行重载
+		      table.reload('Reload', {
+				  url: "http://myzuul.com:9527/zifeng/pay/consumer/pay/findtimepay"
+				  ,where: {
+				  	uId:uId,
+				  	date:demoReload.val()
+				  } //设定异步数据接口的额外参数
+				  //,height: 300
+				});
+		       	
+		  });
+	
+	});
+	  </script>
+	</body>
+</html>

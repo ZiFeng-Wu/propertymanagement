@@ -2,11 +2,14 @@ package com.scau.zifeng.controller;
 
 import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.PayList;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PayController {
@@ -18,8 +21,10 @@ public class PayController {
 
     //查看当前用户待缴费清单
     @RequestMapping(value="/pay/findselpay/{id}",method = RequestMethod.GET)
-    public @ResponseBody List<PayList> findSelfPay(@PathVariable("id") Long id){
-        return payService.findSelfPay(id);
+    public @ResponseBody  JsonFormat findSelfPay(@PathVariable("id") Long id,@RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+        JsonFormat jsonFormat = payService.findSelfPay(id,page,limit);
+        Map<String,Object> map = new HashMap<String,Object>();
+        return jsonFormat;
     }
 
     //修改缴费状态
@@ -32,8 +37,11 @@ public class PayController {
 
     //按时间查看缴费信息
     @RequestMapping(value="/pay/findtimepay",method = RequestMethod.GET)
-    public @ResponseBody  List<PayList> findTimePay(@RequestBody PayList payList){
-        return payService.findTimePay(payList);
+    public @ResponseBody  JsonFormat findTimePay(@RequestParam(value="page") String page, @RequestParam(value="limit") String limit,@RequestParam(value="uId") Long uId,@RequestParam(value="date") String date) throws Exception {
+        System.out.println("yes");
+        JsonFormat jsonFormat =  payService.findTimePay(page,limit,uId,date);
+        Map<String,Object> map = new HashMap<String,Object>();
+        return jsonFormat;
     }
 
     //物业管理员插入缴费信息
@@ -54,8 +62,11 @@ public class PayController {
 
     //物业管理员传入uID来查询该用户所有缴费信息
     @RequestMapping(value = "/pay/findallpay/{id}",method = RequestMethod.GET)
-    public @ResponseBody List<PayList> findAllPay(@PathVariable("id") Long id){
-        return payService.findAllPay(id);
+    public @ResponseBody
+    JsonFormat findAllPay(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+        JsonFormat jsonFormat =  payService.findAllPay(id,page,limit);
+        Map<String,Object> map = new HashMap<String,Object>();
+        return jsonFormat;
     }
 
 }
