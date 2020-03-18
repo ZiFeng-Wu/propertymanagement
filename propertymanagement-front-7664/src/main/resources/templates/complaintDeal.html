@@ -1,0 +1,78 @@
+<!--该网页用于物业主管查看居民投诉-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>居民投诉</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">居民投诉查看</h1>
+	<<hr class="layui-bg-blue">
+	<div style="padding: 5px;">
+		
+	<div class="demoTable layui-form layui-form-item">	 
+	    <div class="layui-inline">
+	      <label class="layui-form-label"> 搜索日期：</label>
+	        <input type="text" class="layui-input layui-input-inline" id="demoReload"  >
+	         <button class="layui-btn" data-type="reload" id="search">搜索</button>
+	    </div>  
+	</div>
+		
+	<table class="layui-hide" id="complaintList" lay-filter="complaintList"></table>
+	
+	
+	
+	</div>
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		
+		 laydate.render({
+		    elem: '#demoReload'
+		    ,type:'datetime'
+		    ,value: '2020-3-11 17:58:00'
+		  });
+		  
+
+		  $("#search").click(function(){
+		  	var demoReload = $('#demoReload');
+
+			 table.render({
+			    elem: '#complaintList'
+			    ,url:"http://myzuul.com:9527/zifeng/complaint/consumer/complaint/finddate"
+			    ,title: '居民投诉'
+			    ,headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem('user')).id}
+			    ,where:{
+			    	date:demoReload.val()
+			    }
+			    ,cols: [[
+			      {field:'id', title:'ID', width:350, fixed: 'left', unresize: true, sort: true,align:'center'}
+			      ,{field:'uId', title:'投诉人ID', width:350, align:'center',unresize: true}
+			      ,{field:'contents', title:'投诉内容', width:350, align:'center',unresize: true}
+			      ,{field:'date', title:'投诉日期',  sort: true,align:'center',unresize: true}	     
+			      
+			    ]]
+			    ,page: true
+			    ,width:1650
+			    ,id:'complaintList'
+			 });
+		       	
+		  });
+	
+	});
+	  </script>
+	</body>
+</html>

@@ -1,0 +1,176 @@
+<!--该网页为系统管理员管理角色-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>角色管理</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">角色管理</h1>
+	<hr class="layui-bg-blue">
+	
+	<div style="padding: 5px;">
+		
+	<div class="demoTable layui-form layui-form-item">	 
+	    <div class="layui-inline">
+	         <button class="layui-btn" data-type="reload" id="search">新增角色</button>
+	    </div>  
+	</div>
+		
+	<table class="layui-hide" id="roleList" lay-filter="roleList"></table>
+	<script type="text/html" id="barDemo">
+	  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="delete"  id="delete">删除</a>
+	</script>	
+	
+	
+	</div>
+	
+	<div style="padding: 5px;display: none;" class="site-text site-block" id="signDiv2">
+		 <h2>新角色名</h2>
+		<hr class="layui-bg-gray">
+	   <div class="layui-form-item" style="padding: 10px;"> 
+	    <label class="layui-form-label">新角色名</label>
+	    <div class="layui-input-block">	    	
+	      <input type="text" class="layui-input-inline" id="roleName" style="height: 30px;" > 	      
+	    </div>
+	  </div>
+	</div>
+
+
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate','layedit'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		var layedit = layui.layedit;
+		
+		var uId = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#roleList'
+		    ,url:"http://myzuul.com:9527/zifeng/land/consumer/role/get"
+		    ,title: '角色列表'
+		    ,headers: {token: localStorage.getItem('token'), id:uId}
+		    ,limit:10
+		    ,limits:[10,20,30,40,50,60]
+		    ,page:true
+		   ,cols: [[
+		       {field:'id', title:'ID', width:600, fixed: 'left', unresize: true, sort: true, align:'center'}
+		      ,{field:'name', title:'用户名', width:600, align:'center',unresize: true,edit:'text'}
+		      ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center',unresize: true}
+		      
+		    ]]
+		    ,width:1650
+		    ,id: 'Reload'
+		  });
+		  
+
+		 
+		  $("#search").click(function(){
+		  		var page;
+						page = layer.open({
+					        type: 1
+					        ,content: $('#signDiv2')
+					        ,area:['400px','250px']
+					        ,btn: ['创建', '取消']
+					        ,btnAlign: 'c' //按钮居中
+					        ,yes: function(index,layero){
+					          	$.ajax({
+					          		type:"POST",
+					          		url:"http://myzuul.com:9527/zifeng/land/consumer/role/add",
+					          		headers: {token: localStorage.getItem('token'), id:uId},
+					          		contentType:"application/json",
+					          		data:JSON.stringify({
+					          			"name":$("#roleName").val()
+					          		}),
+					          		success:function(data3){				          			
+				          			layer.msg('插入成功', {icon: 6});
+				          			layer.close(page);	
+				          			table.reload('Reload', {
+									  url: "http://myzuul.com:9527/zifeng/land/consumer/role/get"
+									  //,height: 300
+									});
+									$("#roleName").val("");
+					          		},
+					          		error:function(){
+					          			layer.msg('插入失败', {icon: 5});
+					          			layer.close(page);	
+					          		}		          		
+					          	});
+					          	
+					        }
+					        ,btn2:function(index){
+								 layer.close(index);
+							}
+					
+					      });
+		  });
+		  
+		    table.on('tool(roleList)', function(obj){
+		    var data = obj.data;
+		    var page;
+		    
+		    if(obj.event === 'delete'){
+		    	$.ajax({
+		    		type:"POST",
+		    		url:"http://myzuul.com:9527/zifeng/land/consumer/role/delete",
+		    		headers: {token: localStorage.getItem('token'), id:uId},
+		    		contentType:"application/json",
+		    		data:JSON.stringify({
+		    			"id":data.id
+		    		}),
+		    		success:function(data){
+		    			layer.msg('删除成功', {icon: 6}); 
+				     		table.reload('Reload', {
+							  url: "http://myzuul.com:9527/zifeng/land/consumer/role/get"
+							  //,height: 300
+							});
+		    		},
+		    		error:function(){
+		    			layer.msg('删除失败，请稍后重试', {icon: 5}); 
+		    		}
+		    	});
+		    	
+		    }
+		    });
+		    
+		    table.on('edit(roleList)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+//			  console.log(obj.value); //得到修改后的值
+//			  console.log(obj.field); //当前编辑的字段名
+//			  console.log(obj.data.name); //所在行的所有相关数据  
+			  
+			  			  console.log(obj.data.id); //所在行的所有相关数据  
+			  $.ajax({
+			  	type:"POST",
+			  	url:"http://myzuul.com:9527/zifeng/land/consumer/role/update",
+			  	headers: {token: localStorage.getItem('token'), id:uId},
+	    		contentType:"application/json",
+	    		data:JSON.stringify({
+	    			"id":obj.data.id,
+	    			"name":obj.data.name
+	    		}),
+	    		success:function(data){
+	    			layer.msg('修改成功', {icon: 6}); 
+	    			table.reload('Reload', {
+							  url: "http://myzuul.com:9527/zifeng/land/consumer/role/get"
+							  //,height: 300
+							});
+	    		},
+	    		error:function(){
+	    			layer.msg('修改失败，请稍后重试', {icon: 5}); 
+	    		}
+			  });
+			});
+	
+	});
+	</script>
+	</body>
+</html>

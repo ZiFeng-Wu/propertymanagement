@@ -1,0 +1,98 @@
+<!--该网页用来对物资采购进行审批-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>物资采购审批</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">物资采购审批</h1>
+	<hr class="layui-bg-blue">
+	<div style="padding: 5px;">
+		
+	<table class="layui-hide" id="purchaseList" lay-filter="purchaseList"></table>
+	
+	<script type="text/html" id="barDemo">
+	  <a class="layui-btn layui-btn-xs" lay-event="edit"  id="repair">批准</a>
+	</script>	
+
+	</div>
+	
+	<div style="display: none; " id="repairDiv">
+		<h1 style="padding-left: 40px;">物资采购审批</h1>
+		<hr class="layui-bg-blue">
+		<div style="width: 900px;padding-left: 50px;" >
+			<textarea id="demo" style="display: none;"></textarea>
+		</div>
+	</div>
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate','layedit'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		var layedit = layui.layedit;
+		
+		var index = layedit.build('demo'); //建立编辑器
+		
+		var id = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#purchaseList'
+		    ,url:"http://myzuul.com:9527/zifeng/material/consumer/material/findnodeal"
+		    ,title: '物资采购审批'
+		    ,totalRow: true
+		    ,headers: {token: localStorage.getItem('token'), id:id}
+		    ,cols: [[
+		       {field:'id', title:'ID', width:230, fixed: 'left', unresize: true, sort: true, totalRowText: '合计',align:'center'}
+		      ,{field:'name', title:'商品名称', width:230, align:'center',unresize: true}
+		      ,{field:'count', title:'购买数量（件）', width:230, align:'center',unresize: true}
+		      ,{field:'date', title:'购买日期', width:230,  sort: true,align:'center',unresize: true}
+		      ,{field:'price', title:'总价', width:230, align:'center',unresize: true,totalRow: true}
+		      ,{field:'status', title:'审核状态',  width:230,align:'center',unresize: true}
+		      ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center',unresize: true}
+		      
+		    ]]
+		    ,page: true
+		    ,width:1650
+		    ,id:'purchaseList'
+		 });
+		 
+		 table.on('tool(purchaseList)', function(obj){
+		    var data = obj.data;
+		    var page;
+		    
+		    if(obj.event === 'edit'){
+					$.ajax({
+						type:"POST",
+						contentType:"application/json",
+						url:"http://myzuul.com:9527/zifeng/material/consumer/material/changestatus/"+data.id,
+						headers:{token:localStorage.getItem('token'),id:JSON.parse(localStorage.getItem("user")).id},					
+						success:function(data4){
+							table.reload('purchaseList');
+							layer.msg('缴费成功！', {icon: 6}); 
+						},
+						eerror:function(){
+							layer.msg('修改失败，请稍后重试', {icon: 5}); 
+						}
+						
+					});							
+				}							
+		 });
+	
+	
+	
+	
+	
+	});
+	  </script>
+	</body>
+</html>

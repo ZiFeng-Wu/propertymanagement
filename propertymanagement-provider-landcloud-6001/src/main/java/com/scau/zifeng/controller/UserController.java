@@ -4,6 +4,7 @@ import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
 import com.scau.zifeng.entities.UserDto;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.RoleService;
 import com.scau.zifeng.service.UserService;
 import com.scau.zifeng.utils.TokenUtil;
@@ -100,6 +101,7 @@ public class UserController {
         }
 
         userDto.setUser(user2);
+        System.out.println(userDto.getToken());
         return userDto;
     }
 
@@ -107,6 +109,7 @@ public class UserController {
     @RequestMapping(value="/user/updatepk",method=RequestMethod.POST)
     public int updatepk(@RequestBody User user) throws Exception {
         int reback = userService.updateByPk(user);
+        System.out.println("okok");
         redisUtils.set(user.getId().toString(),userService.get(user.getId()),10L, TimeUnit.MINUTES);
         redisUtils.set(user.getName(),user.getId().toString(),10L, TimeUnit.MINUTES);
 
@@ -134,45 +137,62 @@ public class UserController {
     //添加角色
     @RequestMapping(value="/role/add",method=RequestMethod.POST)
     public int addrole(@RequestBody Role role){
-        int reback = roleService.add(role);
-        redisUtils.set("RoleList",roleService.get(),10L, TimeUnit.MINUTES);
-        return reback;
+        redisUtils.remove("RoleList");
+        return roleService.add(role);
     }
 
     //更新角色名
-    @RequestMapping(value="/role/update",method = RequestMethod.GET)
-    public @ResponseBody List<Role> update(@RequestBody Role role){
+    @RequestMapping(value="/role/update",method = RequestMethod.POST)
+    public int update(@RequestBody Role role){
         int reback = roleService.update(role);
         redisUtils.remove("RoleList");
-        return (List<Role>)redisUtils.get("RoleList");
+        return reback;
     }
 
 
     //获取当前所有角色
     @RequestMapping(value="/role/get",method = RequestMethod.GET)
-    public @ResponseBody List<Role> get(){
+    public @ResponseBody JsonFormat get(@RequestParam("page") String page,@RequestParam("limit") String limit){
         boolean hasKey = redisUtils.exists("RoleList");
-        List<Role> roleList;
         if(hasKey){
             //获取缓存
-            Object object =  redisUtils.get("RoleList");
-            roleList = (List<Role>)object;
+            return  (JsonFormat) redisUtils.get("RoleList");
         }else{
             //从数据库中获取信息
-            roleList = roleService.get();
+            JsonFormat jsonFormat = roleService.get(page,limit);
             //数据插入缓存（set中的参数含义：key值，user对象，缓存存在时间10（long类型），时间单位）
-            redisUtils.set("RoleList",roleService.get(),10L, TimeUnit.MINUTES);
+            redisUtils.set("RoleList",jsonFormat,10L, TimeUnit.MINUTES);
         }
-        return roleList;
+        return  roleService.get(page,limit);
     }
 
     //删除某个角色
-    @RequestMapping(value="/role/delete",method = RequestMethod.GET)
+    @RequestMapping(value="/role/delete",method = RequestMethod.POST)
     public int delete(@RequestBody Role role){
         redisUtils.remove("RoleList");
         return roleService.delete(role);
     }
 
-
+    //获取所有对象
+    @RequestMapping(value="/user/getAll",method = RequestMethod.GET)
+    public  @ResponseBody JsonFormat getAll(@RequestParam("page") String page,@RequestParam("limit") String limit){
+            return userService.getAll(page,limit);
+    }
+    //变更权限
+    @RequestMapping(value="/user/changeRole/{id}/{rId}",method = RequestMethod.POST)
+    public int changeRole(@PathVariable("id") Long id,@PathVariable("rId") Long rId){
+        return userService.changeRole(id,rId);
+    }
+    //密码变更
+    @RequestMapping(value="/user/changePwd",method = RequestMethod.POST)
+    public int changePwd(@RequestBody User user) throws Exception{
+        return userService.changePwd(user);
+    }
+    //输入一个id找USER返回的是标准格式
+    @RequestMapping(value="/user/getFormat/{id}",method = RequestMethod.GET)
+    public @ResponseBody JsonFormat getFormat(@PathVariable("id") Long id,@RequestParam("page") String page,@RequestParam("limit") String limit) {
+        System.out.println("ok");
+        return userService.getFormat(id);
+    }
 
 }

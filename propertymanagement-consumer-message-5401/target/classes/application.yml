@@ -16,11 +16,21 @@ eureka:
 spring:
   application:
     name: propertymanagement-messagecloud-consumer
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 30000
 
 
 
 info:
   app.name: zifeng-propertymanagement
   company.name: www.scau.zifeng.com
-  build.artifactId: propertymanagement-consumer-message-5401
-  build.version: 1.0-SNAPSHOT
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

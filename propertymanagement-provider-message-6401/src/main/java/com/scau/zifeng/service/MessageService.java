@@ -1,8 +1,7 @@
 package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.MessageBoard;
-
-import java.util.List;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 
 public interface MessageService {
 
@@ -10,5 +9,5 @@ public interface MessageService {
     public int addMessage(MessageBoard messageBoard);
 
     //查看留言板
-    public List<MessageBoard> findMessage();
+    public JsonFormat findMessage(String limit,String page);
 }

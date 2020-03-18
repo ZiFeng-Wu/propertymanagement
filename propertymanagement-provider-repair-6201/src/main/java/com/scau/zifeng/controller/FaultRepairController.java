@@ -2,13 +2,10 @@ package com.scau.zifeng.controller;
 
 import com.scau.zifeng.config.RedisUtils;
 import com.scau.zifeng.entities.FaultRepair;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class FaultRepairController {
@@ -34,27 +31,26 @@ public class FaultRepairController {
 
     //查找个人故障报修历史
     @RequestMapping(value="/repair/findselfrepair/{id}",method = RequestMethod.GET)
-    public @ResponseBody  Map<String, Object> findselfRepair(@PathVariable("id") Long id){
-        Map<String,Object> map = new HashMap<>();
-        map.put("code",0);
-        map.put("msg","");
-        map.put("date",repairService.findselfRepair(id));
-        return map;
+    public @ResponseBody
+    JsonFormat findselfRepair(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+       JsonFormat jsonFormat = repairService.findselfRepair(id,page,limit);
+        return jsonFormat;
     }
 
     //查找当前未处理故障
     @RequestMapping(value = "/repair/findnorepair",method = RequestMethod.GET)
-    public @ResponseBody List<FaultRepair> findNoRepair(){
+    public @ResponseBody JsonFormat findNoRepair(@RequestParam("page") String page,@RequestParam("limit") String limit){
         boolean haskey = redisUtils.exists("allnorepair");
         if(!haskey)
-            redisUtils.set("allnorepair",repairService.findNoRepair());
-        return (List<FaultRepair>)redisUtils.get("allnorepair");
+            redisUtils.set("allnorepair",repairService.findNoRepair(page,limit));
+        JsonFormat jsonFormat = (JsonFormat)redisUtils.get("allnorepair");
+        return jsonFormat;
     }
 
     //按日期查找故障报修清单
     @RequestMapping(value="/repair/finddaterepair",method = RequestMethod.GET)
-    public @ResponseBody List<FaultRepair> findDateRepair(@RequestBody FaultRepair faultRepair){
-        return repairService.findDateRepair(faultRepair);
+    public @ResponseBody JsonFormat findDateRepair(@RequestParam("page") String page,@RequestParam("limit") String limit,@RequestParam("date") String date) throws Exception {
+        return repairService.findDateRepair(page,limit,date);
     }
 
 

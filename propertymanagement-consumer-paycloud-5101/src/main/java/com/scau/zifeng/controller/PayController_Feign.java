@@ -6,8 +6,6 @@ import com.scau.zifeng.service.PayClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class PayController_Feign {
 
@@ -22,9 +20,9 @@ public class PayController_Feign {
     }
 
     //修改缴费状态
-    @RequestMapping(value="/consumer/pay/changestatus/{id}",method = RequestMethod.POST)
-    public int changePayStatus(@PathVariable("id") Long id){
-        return this.payClientService.changePayStatus(id);
+    @RequestMapping(value="/consumer/pay/changestatus/{id}/{payNum}",method = RequestMethod.POST)
+    public int changePayStatus(@PathVariable("id") Long id,@PathVariable("payNum") String payNum){
+        return this.payClientService.changePayStatus(id,payNum);
     }
 
 
@@ -42,8 +40,14 @@ public class PayController_Feign {
 
     //物业管理员获取系统当前所有未缴费清单
     @RequestMapping(value = "/consumer/pay/findallnopay",method = RequestMethod.GET)
-    public @ResponseBody  List<PayList> findAllNoPay(){
-        return this.payClientService.findAllNoPay();
+    public @ResponseBody  JsonFormat findAllNoPay(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.payClientService.findAllNoPay(page,limit);
+    }
+
+    //物业管理员获取系统当前所有未审核清单
+    @RequestMapping(value = "/consumer/pay/findallnocheck",method = RequestMethod.GET)
+    public @ResponseBody  JsonFormat findAllNoChecky(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.payClientService.findAllNoCheck(page,limit);
     }
 
     //物业管理员传入uID来查询该用户所有缴费信息

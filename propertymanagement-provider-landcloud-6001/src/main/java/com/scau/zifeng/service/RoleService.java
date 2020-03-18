@@ -1,15 +1,14 @@
 package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.Role;
-
-import java.util.List;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 
 public interface RoleService {
     public int add(Role role);
 
     public int update(Role role);
 
-    public List<Role> get();
+    public JsonFormat get(String page,String limit);
 
     public int delete(Role role);
 }

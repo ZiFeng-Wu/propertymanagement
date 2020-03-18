@@ -1,0 +1,41 @@
+<!--该网页为操作成功的返回页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>操作成功</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<style type="text/css">
+		#img{
+			      border-radius: 50%;      -moz-border-radius: 50%;      -webkit-border-radius: 50%;
+		}
+	</style>
+	<body>
+	<div style="text-align: center; padding-top: 150px;" >
+		<i class="layui-icon layui-icon-ok" style="font-size: 150px;background-color: green;color: white;" id="img"></i>
+		<br />
+		<a style="font-size: 50px;">&nbsp;&nbsp;操作成功！</a>
+	</div>
+			
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		
+	
+	});
+	</script>
+	</body>
+</html>

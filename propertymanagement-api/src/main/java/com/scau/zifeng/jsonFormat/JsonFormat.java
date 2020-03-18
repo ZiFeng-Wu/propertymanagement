@@ -1,8 +1,8 @@
 package com.scau.zifeng.jsonFormat;
 
 public class JsonFormat {
-    String code;
-    String msg;
+    String code="0";
+    String msg="";
     String count;
     Object data;
 

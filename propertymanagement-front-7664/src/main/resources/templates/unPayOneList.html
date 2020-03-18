@@ -1,0 +1,97 @@
+<!--此网页用于物业管理员来单独查询某个用户的代缴费信息以及给某个用户缴费以及审批-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>单个居民待缴费清单</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">待缴费清单</h1>
+	<<hr class="layui-bg-blue">
+	<div style="padding: 5px;">
+		
+	<div class="demoTable layui-form layui-form-item">	 
+	    <div class="layui-inline">
+	      <label class="layui-form-label"> 居民ID：</label>
+	        <input type="text" class="layui-input layui-input-inline" id="demoReload"  >
+	         <button class="layui-btn" data-type="reload" id="search">查询</button>
+	    </div>  
+	</div>
+		
+	<table class="layui-hide" id="payList" lay-filter="payList"></table>
+	<script type="text/html" id="barDemo">
+	  <a class="layui-btn layui-btn-xs" lay-event="edit"  id="pay">缴费</a>
+	</script>	
+	
+	
+	
+	</div>
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		var id = JSON.parse(localStorage.getItem('user')).id;
+		
+		  
+
+		 
+		  $("#search").click(function(){
+		  	var demoReload = $('#demoReload');
+
+			 table.render({
+			    elem: '#payList'
+			    ,url:"http://myzuul.com:9527/zifeng/pay/consumer/pay/findselpay/"+demoReload.val()
+			    ,title: '用户待缴费清单'
+			    ,totalRow: true
+			    ,headers: {token: localStorage.getItem('token'), id:id}
+			    ,cols: [[
+			      {field:'id', title:'ID', width:270, fixed: 'left', unresize: true, sort: true, totalRowText: '合计',align:'center'}
+			      ,{field:'contents', title:'缴费内容', width:270, align:'center',unresize: true}
+			      ,{field:'amount', title:'缴费金额(元)', width:270, totalRow: true,align:'center',unresize: true}
+			      ,{field:'status', title:'缴费状态', width:350,align:'center',unresize: true}
+			      ,{field:'date', title:'发布日期', width:270,  sort: true,align:'center',unresize: true}	     
+			      ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center',unresize: true}
+			      
+			    ]]
+			    ,page: true
+			    ,width:1650
+			    ,id:'payList'
+			 });
+		       	
+		  });
+		  
+		  table.on('tool(payList)', function(obj){
+			    var data = obj.data;				
+						$.ajax({
+							type:"POST",
+							contentType:"application/json",
+							url:"http://myzuul.com:9527/zifeng/pay/consumer/pay/changestatus/"+data.id+"/"+"-1",
+							headers:{token:localStorage.getItem('token'),id:JSON.parse(localStorage.getItem('user')).id},
+							dataType:"text",
+							success:function(data4){
+								table.reload('payList');
+								layer.msg('缴费成功！', {icon: 6}); 
+							},
+							eerror:function(){
+								layer.msg('修改失败，请稍后重试', {icon: 5}); 
+								return false;
+							}
+						});    
+			 });
+	
+	});
+	  </script>
+	</body>
+</html>

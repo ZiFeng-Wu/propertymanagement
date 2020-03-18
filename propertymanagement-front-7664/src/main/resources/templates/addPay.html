@@ -1,0 +1,96 @@
+<!--该网页用于物业管理员增加居民缴费信息-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>新增缴费信息</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">新增居民缴费</h1>
+	<hr class="layui-bg-blue">
+	
+		<div style="padding: 5px;" class="site-text site-block" >
+		<form class="layui-form" action="" lay-filter="selFrom" >
+			
+				<h2>缴费项</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label">缴费项</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="pay"   class="layui-input" id="pay" style="width: 300px;"  lay-verify="required">
+			    </div>
+			  </div>
+			  
+			  <h2>缴费金额</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label">缴费金额(元)</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="money" class="layui-input" id="money" style="width: 300px;" lay-verify="required">
+			    </div>
+			    <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+			  </div>
+			  
+			  <h2>缴费人ID</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label" >缴费人ID</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="uId"   class="layui-input" id="uId" style="width: 300px;"  lay-verify="required">
+			    </div>
+			  </div>
+			  		  
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <div class="layui-input-block">
+			      <button class="layui-btn"  id="subpur" type="button">提交</button>
+			    </div>
+			  </div>
+			  
+			</form>
+			 
+	</div>
+
+	
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+	
+	
+		$("#subpur").click(function(){
+			layer.confirm("确定提交?");
+			$.ajax({
+				type:"post",
+				url:"http://myzuul.com:9527/zifeng/pay/consumer/pay/addpay",
+				headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem('user')).id},
+				contentType:"application/json",
+				data:JSON.stringify({
+					"contents":$('#pay').val(),
+					"amount":$('#money').val(),
+					"uId":$('#uId').val()
+				}),
+				success:function(data){
+					layer.msg('插入成功！', {icon: 6});
+					window.setTimeout("window.location.href='http://localhost:7664/purchase'", 1000);
+					
+				},
+				error:function(){
+					layer.msg('添加失败，请稍后再试!', {icon: 5});
+				}
+				
+			});
+		})
+	});
+	</script>
+	</body>
+</html>

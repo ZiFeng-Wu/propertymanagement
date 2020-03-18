@@ -55,6 +55,8 @@ zuul:
     messagecloud.path: /message/**
     complaintcloud.serviceId: propertymanagement-complaintcloud-consumer
     complaintcloud.path: /complaint/**
+#    frontcloud.serviceId: propertymanagement-frontcloud
+#    frontcloud.path: /front/**
 
 
 

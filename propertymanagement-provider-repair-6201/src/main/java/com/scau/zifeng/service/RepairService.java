@@ -1,8 +1,7 @@
 package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.FaultRepair;
-
-import java.util.List;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 
 public interface RepairService {
     //插入故障报修
@@ -12,12 +11,12 @@ public interface RepairService {
     public int changeStatus(FaultRepair faultRepair);
 
     //查找个人故障报修历史
-    public List<FaultRepair> findselfRepair(Long id);
+    public JsonFormat findselfRepair(Long id,String page,String limit);
 
     //查找当前未处理故障
-    public List<FaultRepair> findNoRepair();
+    public JsonFormat findNoRepair(String page,String limit);
 
     //按日期查找故障报修清单
-    public List<FaultRepair> findDateRepair(FaultRepair faultRepair);
+    public JsonFormat findDateRepair(String page,String limit, String date) throws Exception;
 
 }

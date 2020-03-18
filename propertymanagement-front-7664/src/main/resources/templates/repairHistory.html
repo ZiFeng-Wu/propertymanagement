@@ -1,0 +1,122 @@
+<!--该网页用于物业管理员来查看故障报修历史-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>居民故障报修历史</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+		
+		
+	<h1 style="padding-top: 20px;padding-left: 10px;">故障报修历史</h1>
+	<hr class="layui-bg-blue">
+	
+	<script type="text/html" id="toolbarDemo">
+	  <div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-sm" lay-event="addRepair">新增故障报修</button>
+	  </div>
+	</script>
+	
+	<div style="padding: 5px;">	
+	<table class="layui-hide" id="repairList" lay-filter="repairList"></table>
+	</div>
+		
+	
+	<div class="layui-form-item layui-form-text" id="text1" style="display: none;">
+		<form id="repairform" style="padding-top: 10px;padding-right: 10px;">
+			<label class="layui-form-label">报修内容:</label>
+		    <div class="layui-input-block">
+		      <textarea placeholder="请输入内容" class="layui-textarea" id="textarea"></textarea>
+		    </div>
+		</form>   
+	 </div>
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		var uId = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#repairList'
+		    ,url:"http://myzuul.com:9527/zifeng/repair/consumer/repair/findselfrepair/"+JSON.parse(localStorage.getItem('user')).id
+		    ,title: '用户故障报修历史'
+		    ,headers: {token: localStorage.getItem('token'), id:uId}
+		    ,limit:10
+		    ,limits:[10,20,30,40,50,60]
+		    ,page:true
+		    ,toolbar: '#toolbarDemo'
+		    ,defaultToolbar:false
+		    ,cols: [[
+		      {field:'id', title:'ID', width:230, fixed: 'left', unresize: true, sort: true, align:'center'}
+		      ,{field:'contents', title:'报修内容', width:230,align:'center', unresize: true}
+		      ,{field:'date', title:'报修日期', sort: true,width:230,align:'center', unresize: true}	
+		      ,{field:'originator', title:'故障报修人id', width:230,  align:'center', unresize: true}
+		      ,{field:'deal', title:'故障处理人id', width:230,align:'center', unresize: true}
+		      ,{field:'status', title:'处理状态', width:230,align:'center', unresize: true}
+		      ,{field:'feedback', title:'处理结果',align:'center', unresize: true}
+		           
+		      
+		    ]]
+		   
+		    ,width:1650
+		    ,id: 'Reload'
+		  });
+		  
+		  table.on('toolbar(repairList)', function(obj){
+		  	page = layer.open({
+				type:1,
+				content: $('#text1'),
+				area:['500px','235px'],
+				title:"故障报修"	,
+				btn: ['提交', '取消'],
+				btnAlign: 'c',
+				 success: function(layero, index){
+					$("#repairform")[0].reset();
+				},
+				yes:function(index,layero){
+						$.ajax({
+							type:"POST",
+							contentType:"application/json",
+							url:"http://myzuul.com:9527/zifeng/repair/consumer/repair/addrepair",
+							data:JSON.stringify({
+								"originator":JSON.parse(localStorage.getItem('user')).id,
+								"contents":$("#textarea").val()
+							}),
+							headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem('user')).id},
+							dataType:"text",
+							success:function(data){
+								layer.msg('插入成功！', {icon: 6}); 
+								layer.close(page);
+								table.reload("Reload");
+							},
+							eerror:function(){
+								layer.msg('插入失败，请稍后重试', {icon: 5}); 
+								return false;
+							}
+						});
+						
+				},
+				btn2:function(index){
+					layer.close(index);
+				}
+				
+			});
+		});		  
+		  
+		  
+	
+	});
+	  </script>
+	</body>
+</html>

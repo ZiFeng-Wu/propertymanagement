@@ -3,11 +3,11 @@ package com.scau.zifeng.service;
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
 import com.scau.zifeng.entities.UserDto;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(value="propertymanagement-landcloud")
@@ -53,16 +53,31 @@ public interface LandClientService {
     public int addrole(@RequestBody Role role);
 
     //更新角色名
-    @RequestMapping(value="/role/update",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Role> update(@RequestBody Role role);
+    @RequestMapping(value="/role/update",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public int update(@RequestBody Role role);
 
     //获取当前所有角色
     @RequestMapping(value="/role/get",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Role> get();
+    public @ResponseBody JsonFormat get(@RequestParam("page") String page,@RequestParam("limit") String limit);
 
     //删除某个角色
-    @RequestMapping(value="/role/delete",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/role/delete",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public int delete(@RequestBody Role role);
+
+    @RequestMapping(value="/user/getAll",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody JsonFormat getAll(@RequestParam("page") String page,@RequestParam("limit") String limit);
+
+    @RequestMapping(value="/user/changeRole/{id}/{rId}",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public int changeRole(@PathVariable("id") Long id,@PathVariable("rId") Long rId);
+
+    @RequestMapping(value="/user/changePwd",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public int changePwd(@RequestBody User user) throws Exception;
+
+    //输入一个id找USER返回的是标准格式
+    @RequestMapping(value="/user/getFormat/{id}",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody JsonFormat getFormat(@PathVariable("id") Long id,@RequestParam("page") String page,@RequestParam("limit") String limit);
+
+
 
 
 }

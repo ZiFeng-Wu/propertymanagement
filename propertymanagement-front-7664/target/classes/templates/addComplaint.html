@@ -1,0 +1,67 @@
+<!--该网页用于居民增加投诉信息-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>投诉</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">发起投诉</h1>
+	<hr class="layui-bg-blue">
+	
+	<div style="padding: 5px;">
+	<textarea id="demo" style="display: none;"></textarea>
+	</div>
+	
+	
+
+	<div style="padding: 5px; text-align:  center;">
+		<button  type="button"  class="layui-btn" id="submit">提交</button>
+	</div>
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate','layedit'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		var layedit = layui.layedit;
+		
+		var index = layedit.build('demo'); //建立编辑器
+	
+		$("#submit").click(function(){
+			layer.confirm("确定提交?");
+			$.ajax({
+				type:"POST",
+				url:"http://myzuul.com:9527/zifeng/complaint/consumer/complaint/addcomplaint",
+				data:JSON.stringify({
+					"uId":JSON.parse(localStorage.getItem("user")).id,
+					"contents":layedit.getContent(index)
+				}),
+				contentType:"application/json",
+				headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem('user')).id},
+				success:function(data){
+					layer.msg('插入成功！', {icon: 6});
+					index = layedit.build('demo'); 
+					window.setTimeout("window.location.href='http://localhost:7664/success'", 1000);
+				},
+				error:function(){
+					layer.msg('插入失败稍后重试！', {icon: 5});
+				}
+			});
+			
+			
+		});
+	});
+	</script>
+	</body>
+</html>

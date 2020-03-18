@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>个人资料</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+		
+	</head>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">个人资料</h1>
+	<hr class="layui-bg-blue">
+	<div style="padding: 5px;display: none;" class="site-text site-block" id="selDiv">
+		
+		<form class="layui-form" action="" lay-filter="selFrom2" id="selForm2">
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">ID</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="id"   class="layui-input" id="id2" style="width: 100px;" readonly="readonly" >
+			    </div>
+			  </div>
+			  
+			  
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">用户名</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="name" class="layui-input" id="name2" style="width: 100px;" onblur="uname()"> 
+			      <span id="nameSpan" class="layui-icon">*2-4位中文或4-8位英文</span>
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+			  
+			  
+			   <div class="layui-form-item" style="padding: 10px;"> 
+			    <label class="layui-form-label">账户权限</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="rId"   class="layui-input" id="role2" style="width: 100px;" readonly="readonly">
+			    </div>
+			  </div>
+			  
+			 
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">住址</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="address"   class="layui-input" id="address2" style="width: 400px;">
+			    </div>
+			  </div>
+			  
+			   
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">电话</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="telephone"   class="layui-input" id="telephone2" style="width: 200px;">
+			    </div>
+			  </div>
+		
+			</form>
+	</div>
+
+
+		<div style="padding: 5px;" class="site-text site-block" >
+		<form class="layui-form" action="" lay-filter="selFrom" >
+			<h2>用户ID</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">ID</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="id"   class="layui-input" id="id" style="width: 100px;"  readonly="readonly">
+			    </div>
+			  </div>
+			  
+			  <h2>用户名</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">用户名</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="name" class="layui-input" id="name" style="width: 100px;" readonly="readonly" lay-verify="required"> 
+			    </div>
+			    <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+			  </div>
+			  
+			  <h2>账户权限</h2>
+				<hr class="layui-bg-gray">
+			   <div class="layui-form-item" style="padding: 10px;"> 
+			    <label class="layui-form-label">账户权限</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="rId"   class="layui-input" id="rId" style="width: 100px;" readonly="readonly"> 
+			    </div>
+			  </div>
+			  
+			   <h2>住址</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">住址</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="address"   class="layui-input" id="address" style="width: 400px;" readonly="readonly" lay-verify="required">
+			    </div>
+			  </div>
+			  
+			  <h2>电话</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <label class="layui-form-label">电话</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="telephone"   class="layui-input" id="telephone" style="width: 200px;" readonly="readonly" lay-verify="required|telephone">
+			    </div>
+			  </div>
+			  
+			  
+			  
+			  <div class="layui-form-item" style="padding: 10px;">
+			    <div class="layui-input-block">
+			      <button class="layui-btn"  id="changeMessage" type="button">修改个人资料</button>
+			    </div>
+			  </div>
+			</form>
+			 
+	</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		//表单初始化
+		$(function(){
+			var data = JSON.parse(localStorage.getItem('user'));
+			if(data.rId==1)
+			data.rId="居民";
+			else if(data.rId==2)
+			data.rId="物业管理员";
+			else if(data.rId==3)
+			data.rId="主管";
+			else
+			data.rId="系统管理员";
+			
+			form.val("selFrom",data);
+		});
+		
+		var page;
+		//弹出层修改用户信息
+		$("#changeMessage").click(function(){
+			var data = JSON.parse(localStorage.getItem('user'));
+			var data2 = JSON.parse(localStorage.getItem('user'));
+			
+			if(data.rId==1)
+				data2.rId="居民";
+			else if(data.rId==2)
+				data2.rId="物业管理员";
+			else if(data.rId==3)
+				data2.rId="主管";
+			else
+				data2.rId="系统管理员";
+				
+			page = layer.open({
+				type:1,
+				content: $('#selDiv'),
+				area:['650px','550px'],
+				title:"修改个人信息"	,
+				btn: ['确认修改', '取消'],
+				btnAlign: 'c',
+				success:function(layero, index){
+				   form.val("selFrom2",data2)
+				},
+				yes:function(index,layero){	
+					layer.confirm("确定修改?");
+					data.name=$('#name2').val();
+					data.address=$('#address2').val();
+					data.telephone=$('#telephone2').val();
+					
+						$.ajax({
+							type:"POST",
+							contentType:"application/json",
+							url:"http://myzuul.com:9527/zifeng/land/consumer/user/updatepk",
+							headers:{token:localStorage.getItem('token'),id:data.id},
+							data:JSON.stringify(data),
+							dataType:"text",
+							success:function(data4){
+								data2.name=$('#name2').val();
+								data2.address=$('#address2').val();
+								data2.telephone=$('#telephone2').val();
+								localStorage.setItem('user',JSON.stringify(data));
+								document.cookie="id="+JSON.parse(localStorage.getItem('user')).id;
+								form.val("selFrom",data2);
+								layer.msg('修改成功！', {icon: 6}); 
+								layer.close(page);
+							},
+							eerror:function(){
+								layer.msg('修改失败，请稍后重试', {icon: 5}); 
+								return false;
+							}
+						});
+						
+					
+				},
+				btn2:function(index){
+					layer.close(index);
+				}
+				
+			});
+			
+		});
+		
+		form.verify({
+			username:[
+				/^[\u4e00-\u9fa5]{2,4}|[A-Za-z]{4,8}$/
+				,'用户名必须为2-4位中文或4-8位英文'
+			],
+			telephone:[
+				/^1[3456789]\d{9}$/
+				,'请输入正确的手机号码'
+			]
+		});
+		
+		
+	
+	});
+	
+		//用户名验证
+		function uname(){
+			
+			var param = {
+					"name": $("#name2").val()
+			};
+			var nameSpan = $("#nameSpan");
+			$.ajax({
+					type:"post",
+					url:"http://myzuul.com:9527/zifeng/land/consumer/user/findname",
+					contentType: "application/json",
+					data: JSON.stringify(param),
+					dataType: "json",
+					success: function(data){
+						console.log(data);
+						if(data.user.id!=-1){
+							if(param.name==JSON.parse(localStorage.getItem('user')).name){
+								nameSpan.html("用户名无变更&#xe60c;");
+								nameSpan.css("color","orange");
+							}
+							else{
+								nameSpan.html("用户名已存在&#x1006;");
+								nameSpan.css("color","red");
+							}
+							
+						}
+						
+						else{
+							nameSpan.html("用户名可以注册&#xe605;");
+							nameSpan.css("color","green");
+							
+						}
+						
+					},
+					error: function(){
+						nameSpan.html("服务器错误&#x1006;");
+						nameSpan.css("color","red");
+					}
+			});	
+			
+		}
+	</script>
+	</body>
+</html>

@@ -2,11 +2,10 @@ package com.scau.zifeng.controller;
 
 
 import com.scau.zifeng.entities.FaultRepair;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.RepairClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class RepairController_Feign {
@@ -28,20 +27,21 @@ public class RepairController_Feign {
     //查找个人故障报修历史
     @RequestMapping(value="/consumer/repair/findselfrepair/{id}",method = RequestMethod.GET)
     public @ResponseBody
-    List<FaultRepair> findselfRepair(@PathVariable("id") Long id){
-        return this.repairClientService.findselfRepair(id);
+    JsonFormat findselfRepair(@PathVariable("id") Long id, @RequestParam(value="page") String page, @RequestParam(value="limit") String limit){
+        return this.repairClientService.findselfRepair(id,page,limit);
     }
 
     //查找当前未处理故障
     @RequestMapping(value = "/consumer/repair/findnorepair",method = RequestMethod.GET)
-    public @ResponseBody List<FaultRepair> findNoRepair(){
-        return this.repairClientService.findNoRepair();
+    public @ResponseBody JsonFormat findNoRepair(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.repairClientService.findNoRepair(page,limit);
     }
 
     //按日期查找故障报修清单
     @RequestMapping(value="/consumer/repair/finddaterepair",method = RequestMethod.GET)
-    public @ResponseBody List<FaultRepair> findDateRepair(@RequestBody FaultRepair faultRepair){
-        return this.repairClientService.findDateRepair(faultRepair);
+    public @ResponseBody JsonFormat findDateRepair(@RequestParam("page") String page,@RequestParam("limit") String limit,@RequestParam("date") String date){
+        JsonFormat jsonFormat = this.repairClientService.findDateRepair(page,limit,date);
+        return jsonFormat;
     }
 
 }

@@ -1,0 +1,97 @@
+<!--该网页为增加物资采购-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>新增物资购买</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">物资采购</h1>
+	<hr class="layui-bg-blue">
+	
+		<div style="padding: 5px;" class="site-text site-block" >
+		<form class="layui-form" action="" lay-filter="selFrom" >
+			
+				<h2>商品名称</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label">商品名称</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="name"   class="layui-input" id="name" style="width: 100px;"  lay-verify="required">
+			    </div>
+			  </div>
+			  
+			  <h2>购买数量</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label">购买数量(件)</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="count" class="layui-input" id="count" style="width: 100px;" lay-verify="required">
+			    </div>
+			    <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+			  </div>
+			  
+			  <h2>总价</h2>
+				<hr class="layui-bg-gray">
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <label class="layui-form-label" >总价(元)</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="price"   class="layui-input" id="price" style="width: 100px;"  lay-verify="required">
+			    </div>
+			  </div>
+			  		  
+			  <div class="layui-form-item" style="padding-top: 10px;">
+			    <div class="layui-input-block">
+			      <button class="layui-btn"  id="subpur" type="button">提交</button>
+			    </div>
+			  </div>
+			  
+			</form>
+			 
+	</div>
+
+	
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+	
+	
+		$("#subpur").click(function(){
+			layer.confirm("确定提交?");
+			$.ajax({
+				type:"post",
+				url:"http://myzuul.com:9527/zifeng/material/consumer/material/addmaterial",
+				headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem('user')).id},
+				contentType:"application/json",
+				data:JSON.stringify({
+					"name":$('#name').val(),
+					"count":$('#count').val(),
+					"price":$('#price').val(),
+					"uId":JSON.parse(localStorage.getItem('user')).id
+				}),
+				success:function(data){
+					layer.msg('插入成功！', {icon: 6});
+					window.setTimeout("window.location.href='http://localhost:7664/purchase'", 1000);
+					
+				},
+				error:function(){
+					layer.msg('添加失败，请稍后再试!', {icon: 5});
+				}
+				
+			});
+		})
+	});
+	</script>
+	</body>
+</html>

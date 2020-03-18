@@ -1,0 +1,63 @@
+<!--该页面用于物业管理员来查询当前系统的所有未缴费信息-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>居民未缴费清单</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<body>
+		
+		
+	<h1 style="padding-top: 20px;padding-left: 10px;">居民未缴费清单</h1>
+	<hr class="layui-bg-blue">
+
+	<div style="padding: 5px;">	
+	<table class="layui-hide" id="repairList" lay-filter="repairList"></table>
+	</div>
+		
+	
+
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		var uId = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#repairList'
+		    ,url:"http://myzuul.com:9527/zifeng/pay/consumer/pay/findallnopay"
+		    ,title: '居民未缴费清单'
+		    ,headers: {token: localStorage.getItem('token'), id:uId}
+		    ,limit:10
+		    ,limits:[10,20,30,40,50,60]
+		    ,page:true
+		    ,cols: [[
+		      {field:'id', title:'ID', width:280, fixed: 'left', unresize: true, sort: true, totalRowText: '合计',align:'center'}
+		      ,{field:'contents', title:'缴费内容', width:280, align:'center',unresize: true}
+		      ,{field:'amount', title:'缴费金额(元)', width:280, totalRow: true,align:'center',unresize: true}
+		      ,{field:'uId', title:'缴费居民ID', width:280, sort: true,align:'center',unresize: true}
+		      ,{field:'status', title:'缴费状态', width:280,align:'center',unresize: true}
+		      ,{field:'date', title:'发布日期',   sort: true,align:'center',unresize: true}	     
+		    ]]		   
+		    ,width:1650
+		    ,id: 'Reload'
+		  });
+		  
+		 
+		  
+	
+	});
+	  </script>
+	</body>
+</html>

@@ -1,3 +1,4 @@
+<!--该网页为登陆主页面-->
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -5,24 +6,336 @@
     <!--适配移动端-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Login</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-
+	<link rel="stylesheet" href="layui/css/layui.css">
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+	<script src="layui/layui.js"></script>
+	
 </head>
+<style>
+	#h1{
+		padding: 20px;
+	}
+	.button{
+		width: 120px;
+		height: 50px;
+	}
+	#text{
+		color: red;
+	}
+	.layui-form-label{
+		width: 130px;
+		font-size: 15px;
+	}
+	.layui-input{
+		color: black;
 
-<body>
-<div class="login">
-    <h1>物业管理系统</h1>
-    <form method="post">
-        <input type="text" name="username" placeholder="Username" required="required" />
-        <input type="password" name="password" placeholder="Password" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in</button>
+	}
+</style>
+<body onload="createCode();">
+<div class="login" >
+    <h1 id="h1">物业管理系统</h1>
+    <form>
+        <input type="text" name="username" placeholder="Username" required="required" id="name"/>
+        <input type="password" name="password" placeholder="Password" required="required" id="pwd"/>
+        <div style="padding: 10px;">
+       		 <button type="button" class="btn btn-primary btn-large button" id="submit" >登陆</button>
+       		 <button type="button" class="btn btn-primary btn-large button" id="sign" >注册</button>
+        </div>
+        
     </form>
 </div>
-<!--<script  src="js/index.js"></script>-->
+
+<div class="site-text site-block" style="display: none;" id="signDiv" >
+	<form class="layui-form" action="" id="signForm">
+  <div class="layui-form-item" style="padding: 10px;">
+    <label class="layui-form-label" ><b>用户名:</b></label>
+    <div class="layui-input-inline" >
+      <input type="text" name="signName" lay-verify="required|username" placeholder="请输入用户名" autocomplete="off" class="layui-input" onblur="uname();" id="nameInput">
+      <span id="nameSpan" class="layui-icon">*2-4位中文或4-8位英文</span>
+    </div>
+  </div>
+  <div class="layui-form-item" >
+    <label class="layui-form-label" ><b>密码:</b></label>
+    <div class="layui-input-inline">
+      <input type="password" id="pwd1" name="password" lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input" onblur="checkpass1();">
+      <span id="pwd1Span" class="layui-icon">*密码长度8-16位<br>包含大、小字母和数字</span>
+    </div>
+    <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+  </div>
+  <div class="layui-form-item" >
+    <label class="layui-form-label" ><b>再次输入密码:</b></label>
+    <div class="layui-input-inline">
+      <input type="password" id="pwd2" name="password2" lay-verify="required|pass" placeholder="请再次输入密码" autocomplete="off" class="layui-input" onblur="checkpass2();">
+      <span id="pwd2Span" class="layui-icon"></span>
+    </div>
+    <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+  </div>
+  
+  <div class="layui-form-item" style="padding: 5px;">
+    <label class="layui-form-label"><b>住址:</b></label>
+    <div class="layui-input-inline">
+      <input type="text" name="address" lay-verify="required" placeholder="xx栋xxx房" autocomplete="off" class="layui-input" id="addInput">
+    </div>
+  </div>
+  
+  <div class="layui-form-item" >
+    <label class="layui-form-label"><b>电话号码:</b></label>
+    <div class="layui-input-inline">
+      <input type="text" name="telepehone"  required lay-verify="required|telephone" autocomplete="off" placeholder="1xxxxxxxxxx" class="layui-input" id="phoneInput">
+    </div>
+  </div>
+  
+  <div class="layui-form-item" style="padding: 5px;">
+    <label class="layui-form-label"><b>验证码:</b></label>
+    <div class="layui-input-inline" >
+    <input type="text" name="code" class="layui-input layui-input-inline" style="width: 80px;" id="codeInput" >
+      <span id="codeSpan" onclick="createCode();" style="background-image: url(img/code.gif);color: black; color: white;font-size: 30px;"></span>
+    </div>
+  </div>
+  <!--<div class="layui-form-item " style="display: none;">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即注册</button>
+      <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+    </div>
+  </div>-->
+</form>
+	
+</div>
+<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		//登陆界面
+		$("#submit").click(function(){
+			if($("#name").val()==""){
+				layer.msg("用户名不能为空");
+				return;
+			}
+			if($("#pwd").val()==""){
+				layer.msg("密码不能为空");
+				return;
+			}
+			
+			var passwd = $("#pwd").val();
+			passwd=md5(passwd+"19970825");
+			
+			var param = {
+				"name": $("#name").val(),
+				"password": passwd
+			};
+			$.ajax({
+				type:"POST",
+				url:"http://myzuul.com:9527/zifeng/land/consumer/user/checkpass",
+				contentType: "application/json",
+				data: JSON.stringify(param),
+				dataType: "json",
+				success: function(data){
+					localStorage.setItem("token",data.token);
+					localStorage.setItem("user",JSON.stringify(data.user));
+					document.cookie="token="+data.token;
+					document.cookie="id="+JSON.parse(localStorage.getItem('user')).id;
+					if(data.user.rId==4)
+					window.location.href="http://localhost:7664/admin";
+					else if(data.user.rId==3)
+					window.location.href="http://localhost:7664/head";
+					else if(data.user.rId==2)
+					window.location.href="http://localhost:7664/management";
+					else
+					window.location.href="http://localhost:7664/user";
+				},
+				error: function(){
+					layer.msg("密码错误或用户不存在！");
+				}
+			});
+		});
+		
+		
+		  
+		var page;
+		//注册弹出层
+		$("#sign").click(function(){
+			page = layer.open({
+				type:1,
+				content: $('#signDiv'),
+				area:['400px','600px'],
+				title:"注册"	,
+				btn: ['注册', '取消'],
+				btnAlign: 'c',
+				 success: function(layero, index){
+					$("#signForm")[0].reset();
+//					  $(':focus').blur();
+                        // 添加form标识
+                        layero.addClass('layui-form');
+                        // 将保存按钮改变成提交按钮
+                        layero.find('.layui-layer-btn0').attr({
+                            'lay-filter': 'formDemo',
+                            'lay-submit': ''
+                        });
+                        //重新渲染
+                        form.render();
+
+
+				},
+				yes:function(index,layero){
+					 form.on('submit(formDemo)', function (data) {
+					 	
+					 	var span = $("#codeSpan").html();
+						var code = $("#codeInput").val();
+						
+	
+						if(span!=code){
+							layer.msg('验证码输入错误', {icon: 5}); 
+							$("#codeInput").val("");
+							return false;
+						}
+						else{
+							$.ajax({
+								type:"POST",
+								contentType:"application/json",
+								url:"http://myzuul.com:9527/zifeng/land/consumer/user/add",
+								data:JSON.stringify({
+									"name":$("#nameInput").val(),
+									"password":$("#pwd1").val(),
+									"rId":1,
+									"address":$("#addInput").val(),
+									"telephone":$("#phoneInput").val()
+								}),
+								dataType:"text",
+								success:function(data){
+									layer.msg('注册成功！', {icon: 6}); 
+									layer.close(page);
+								},
+								eerror:function(){
+									 layer.alert('注册错误，请稍后重试', {
+                                        skin: 'layui-layer-molv',
+                                        closeBtn: 0
+                                  })
+								}
+							});
+							
+						}
+					 });
+					
+										 
+					
+				},
+				btn2:function(index){
+					layer.close(index);
+				}
+				
+			});
+		});
+		
+		//注册页面的表单校验
+		form.verify({
+			username:[
+				/^[\u4e00-\u9fa5]{2,4}|[A-Za-z]{4,8}$/
+				,'用户名必须为2-4位中文或4-8位英文'
+			],
+			telephone:[
+				/^1[3456789]\d{9}$/
+				,'请输入正确的手机号码'
+			]
+		});
+		
+	});
+	
+	
+	function createCode(){
+		//创建验证码
+			var code =Math.floor(Math.random()*9000+1000);
+			var span = $("#codeSpan");
+			span.html(code);	
+			
+	}
+	
+	//用户名验证
+	function uname(){
+		
+		var param = {
+				"name": $("#nameInput").val()
+		};
+		var nameSpan = $("#nameSpan");
+		$.ajax({
+				type:"post",
+				url:"http://myzuul.com:9527/zifeng/land/consumer/user/findname",
+				contentType: "application/json",
+				data: JSON.stringify(param),
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					if(data.user.id!=-1){
+						nameSpan.html("用户名已存在&#x1006;");
+						nameSpan.css("color","red");
+					}
+					
+					else{
+						nameSpan.html("用户名可以注册&#xe605;");
+						nameSpan.css("color","green");
+					}
+					
+				},
+				error: function(){
+					nameSpan.html("服务器错误&#x1006;");
+					nameSpan.css("color","red");
+				}
+		});	
+		
+	}
+	
+	
+	//验证密码
+	function checkpass1(){
+		var pwd1 = $("#pwd1").val();
+		var pwd2 = $("#pwd2").val();
+		var reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+		var pwd1Span = $("#pwd1Span");
+		if(reg.test(pwd1)){
+			pwd1Span.html("密码符合规范&#xe605;");
+			pwd1Span.css("color","green");
+		}
+		else{
+			pwd1Span.html("密码不符合规范&#x1006;");
+			pwd1Span.css("color","red");
+		}
+		checkpass2();
+	}
+	
+	//密码对比
+	function checkpass2(){
+		var pwd1 = $("#pwd1").val();
+		var pwd2 = $("#pwd2").val();
+		var pwd2Span = $("#pwd2Span");
+		if(pwd1==pwd2){
+			pwd2Span.html("两次密码输入一致&#xe605;");
+			pwd2Span.css("color","green");
+		}
+		else{
+			pwd2Span.html("两次密码输入不一致&#x1006;");
+			pwd2Span.css("color","red");
+		}
+		
+	}
+	
+	
+	
+	
+</script>
 </body>
 
 </html>
+<!--
+	error: function(XMLHttpResponse, textStatus, errorThrown){
+					  console.log("1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState);
+                    console.log("2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status);
+                    console.log("3 异步调用返回失败,textStatus:"+textStatus);
+                    console.log("4 异步调用返回失败,errorThrown:"+errorThrown);
+				}-->

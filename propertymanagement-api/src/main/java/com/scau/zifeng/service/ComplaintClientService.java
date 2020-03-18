@@ -1,14 +1,10 @@
 package com.scau.zifeng.service;
 
 import com.scau.zifeng.entities.Complaint;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(value="propertymanagement-complaintcloud")
 public interface ComplaintClientService {
@@ -19,5 +15,6 @@ public interface ComplaintClientService {
     //传入日期查看投诉
     @RequestMapping(value="/complaint/finddate",method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<Complaint> findDate(@RequestBody Complaint complaint);
+    JsonFormat findDate(@RequestParam("page") String page, @RequestParam("limit") String limit, @RequestParam("date") String date) throws Exception;
+
 }

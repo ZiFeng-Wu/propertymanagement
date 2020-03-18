@@ -37,11 +37,16 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
-    public int changePayStatus(Long Pid) {
+    public int changePayStatus(Long Pid,String payNum) {
         PayList payList = payListMapper.selectByPrimaryKey(Pid);
-        payList.setStatus("已缴清");
+        if(payNum.equals("-1"))
+            payList.setStatus("已缴清");
+        else
+            payList.setStatus("待审核，订单号:"+payNum);
         return payListMapper.updateByPrimaryKey(payList);
     }
+
+
 
     @Override
     public JsonFormat findTimePay(String page,String limit,Long uId, String date) throws Exception{
@@ -81,8 +86,6 @@ public class PayServiceImpl implements PayService {
 
         }
         JsonFormat jsonFormat = new JsonFormat();
-        jsonFormat.setCode("0");
-        jsonFormat.setMsg("");
         jsonFormat.setCount(list3.size()+"");
         jsonFormat.setData(list2);
         return jsonFormat;
@@ -91,15 +94,37 @@ public class PayServiceImpl implements PayService {
     @Override
     public int addPay(PayList payList) {
         payList.setStatus("未缴清");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        payList.setDate(date);
         return payListMapper.insert(payList);
     }
 
     @Override
-    public List<PayList> findAllNoPay() {
+    public  JsonFormat findAllNoPay(String page,String limit) {
         PayListExample payListExample = new PayListExample();
         PayListExample.Criteria c = payListExample.createCriteria();
         c.andStatusEqualTo("未缴清");
-        return payListMapper.selectByExample(payListExample);
+        JsonFormat jsonFormat = new JsonFormat();
+        jsonFormat.setCount(payListMapper.selectByExample(payListExample).size()+"");
+        int page2 = (Integer.parseInt(page)-1)*Integer.parseInt(limit);
+        payListExample.setOrderByClause("id limit "+page2+","+limit);
+        jsonFormat.setData(payListMapper.selectByExample(payListExample));
+        return jsonFormat;
+    }
+
+    @Override
+    public  JsonFormat findAllNoCheck(String page,String limit) {
+        PayListExample payListExample = new PayListExample();
+        PayListExample.Criteria c = payListExample.createCriteria();
+        c.andStatusNotEqualTo("已缴清");
+        c.andStatusNotEqualTo("未缴清");
+        JsonFormat jsonFormat = new JsonFormat();
+        jsonFormat.setCount(payListMapper.selectByExample(payListExample).size()+"");
+        int page2 = (Integer.parseInt(page)-1)*Integer.parseInt(limit);
+        payListExample.setOrderByClause("id limit "+page2+","+limit);
+        jsonFormat.setData(payListMapper.selectByExample(payListExample));
+        return jsonFormat;
     }
 
     @Override
@@ -108,8 +133,6 @@ public class PayServiceImpl implements PayService {
         PayListExample.Criteria c = payListExample.createCriteria();
         c.andUIdEqualTo(uId);
         JsonFormat jsonFormat = new JsonFormat();
-        jsonFormat.setCode("0");
-        jsonFormat.setMsg("");
         jsonFormat.setCount(payListMapper.selectByExample(payListExample).size()+"");
         int page2 = (Integer.parseInt(page)-1)*Integer.parseInt(limit);
         payListExample.setOrderByClause("id limit "+page2+","+limit);

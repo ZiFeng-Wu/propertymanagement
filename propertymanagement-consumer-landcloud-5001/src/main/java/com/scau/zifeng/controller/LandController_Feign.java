@@ -3,11 +3,11 @@ package com.scau.zifeng.controller;
 import com.scau.zifeng.entities.Role;
 import com.scau.zifeng.entities.User;
 import com.scau.zifeng.entities.UserDto;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.LandClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -71,25 +71,42 @@ public class LandController_Feign {
     }
 
     //更新角色名
-    @RequestMapping(value="/consumer/role/update",method = RequestMethod.GET)
-    public @ResponseBody
-    List<Role> update(@RequestBody Role role){
+    @RequestMapping(value="/consumer/role/update",method = RequestMethod.POST)
+    public int update(@RequestBody Role role){
         return this.landClientService.update(role);
     }
 
     //获取当前所有角色
     @RequestMapping(value="/consumer/role/get",method = RequestMethod.GET)
-    public @ResponseBody List<Role> get(){
-        return this.landClientService.get();
+    public @ResponseBody JsonFormat get(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.landClientService.get(page,limit);
     }
 
     //删除某个角色
-    @RequestMapping(value="/consumer/role/delete",method = RequestMethod.GET)
+    @RequestMapping(value="/consumer/role/delete",method = RequestMethod.POST)
     public int delete(@RequestBody Role role){
         return this.landClientService.delete(role);
     }
 
+    @RequestMapping(value="/consumer/user/getAll",method = RequestMethod.GET)
+    public @ResponseBody JsonFormat getAll(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.landClientService.getAll(page,limit);
+    }
 
+    @RequestMapping(value="/consumer/user/changeRole/{id}/{rId}",method = RequestMethod.POST)
+    public int changeRole(@PathVariable("id") Long id,@PathVariable("rId") Long rId){
+        return this.landClientService.changeRole(id,rId);
+    }
 
+    @RequestMapping(value="/consumer/user/changePwd",method = RequestMethod.POST)
+    public int changePwd(@RequestBody User user) throws Exception{
+        return this.landClientService.changePwd(user);
+    }
+
+    //输入一个id找USER返回的是标准格式
+    @RequestMapping(value="/consumer/user/getFormat/{id}",method = RequestMethod.GET)
+    public @ResponseBody JsonFormat getFormat(@PathVariable("id") Long id,@RequestParam("page") String page,@RequestParam("limit") String limit) {
+        return  this.landClientService.getFormat(id,page,limit);
+    }
 
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,10 +27,11 @@ public class PayController {
     }
 
     //修改缴费状态
-    @RequestMapping(value="/pay/changestatus/{id}",method = RequestMethod.POST)
-    public int changePayStatus(@PathVariable("id") Long id){
+    @RequestMapping(value="/pay/changestatus/{id}/{payNum}",method = RequestMethod.POST)
+    public int changePayStatus(@PathVariable("id") Long id,@PathVariable("payNum") String payNum){
         redisUtils.remove("allnopay");
-        return payService.changePayStatus(id);
+        redisUtils.remove("allnocheck");
+        return payService.changePayStatus(id,payNum);
     }
 
 
@@ -53,11 +53,20 @@ public class PayController {
 
     //物业管理员获取系统当前所有未缴费清单
     @RequestMapping(value = "/pay/findallnopay",method = RequestMethod.GET)
-    public @ResponseBody  List<PayList> findAllNoPay(){
+    public @ResponseBody  JsonFormat findAllNoPay(@RequestParam("page") String page,@RequestParam("limit") String limit){
         boolean haskey = redisUtils.exists("allnopay");
         if(!haskey)
-            redisUtils.set("allnopay",payService.findAllNoPay());
-        return (List<PayList>)redisUtils.get("allnopay");
+            redisUtils.set("allnopay",payService.findAllNoPay(page,limit));
+        return  (JsonFormat) redisUtils.get("allnopay");
+    }
+
+    //物业管理员获取系统当前所有未审核清单
+    @RequestMapping(value = "/pay/findallnocheck",method = RequestMethod.GET)
+    public @ResponseBody  JsonFormat findAllNoCheck(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        boolean haskey = redisUtils.exists("allnocheck");
+        if(!haskey)
+            redisUtils.set("allnocheck",payService.findAllNoCheck(page,limit));
+        return  (JsonFormat) redisUtils.get("allnocheck");
     }
 
     //物业管理员传入uID来查询该用户所有缴费信息

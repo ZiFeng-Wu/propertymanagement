@@ -1,3 +1,4 @@
+<!--该网页为登陆主页面-->
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -61,7 +62,7 @@
     <label class="layui-form-label" ><b>密码:</b></label>
     <div class="layui-input-inline">
       <input type="password" id="pwd1" name="password" lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input" onblur="checkpass1();">
-      <span id="pwd1Span" class="layui-icon">*密码为8-16位<br>包含大、小字母和数字</span>
+      <span id="pwd1Span" class="layui-icon">*密码长度8-16位<br>包含大、小字母和数字</span>
     </div>
     <!--<div class="layui-form-mid layui-word-aux">辅助文字</div>-->
   </div>
@@ -84,20 +85,20 @@
   <div class="layui-form-item" >
     <label class="layui-form-label"><b>电话号码:</b></label>
     <div class="layui-input-inline">
-      <input type="text" name="telepehone" lay-verify="required|telephone" autocomplete="off" placeholder="1xxxxxxxxxx" class="layui-input" id="phoneInput">
+      <input type="text" name="telepehone"  required lay-verify="required|telephone" autocomplete="off" placeholder="1xxxxxxxxxx" class="layui-input" id="phoneInput">
     </div>
   </div>
   
   <div class="layui-form-item" style="padding: 5px;">
     <label class="layui-form-label"><b>验证码:</b></label>
     <div class="layui-input-inline" >
-    <input type="text" name="code" class="layui-input layui-input-inline" style="width: 80px;" id="codeInput" onblur="checkcode();">
+    <input type="text" name="code" class="layui-input layui-input-inline" style="width: 80px;" id="codeInput" >
       <span id="codeSpan" onclick="createCode();" style="background-image: url(img/code.gif);color: black; color: white;font-size: 30px;"></span>
     </div>
   </div>
-  <!--<div class="layui-form-item">
+  <!--<div class="layui-form-item " style="display: none;">
     <div class="layui-input-block">
-      <button class="layui-btn"  id="add">立即注册</button>
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即注册</button>
       <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
     </div>
   </div>-->
@@ -131,7 +132,7 @@
 				"password": passwd
 			};
 			$.ajax({
-				type:"post",
+				type:"POST",
 				url:"http://myzuul.com:9527/zifeng/land/consumer/user/checkpass",
 				contentType: "application/json",
 				data: JSON.stringify(param),
@@ -142,19 +143,22 @@
 					document.cookie="token="+data.token;
 					document.cookie="id="+JSON.parse(localStorage.getItem('user')).id;
 					if(data.user.rId==4)
-					window.location.href="admin.html";
+					window.location.href="http://localhost:7664/admin";
 					else if(data.user.rId==3)
-					window.location.href="head.html";
+					window.location.href="http://localhost:7664/head";
 					else if(data.user.rId==2)
-					window.location.href="management.html";
+					window.location.href="http://localhost:7664/management";
 					else
-					window.location.href="user.html";
+					window.location.href="http://localhost:7664/user";
 				},
 				error: function(){
 					layer.msg("密码错误或用户不存在！");
 				}
 			});
 		});
+		
+		
+		  
 		var page;
 		//注册弹出层
 		$("#sign").click(function(){
@@ -167,39 +171,61 @@
 				btnAlign: 'c',
 				 success: function(layero, index){
 					$("#signForm")[0].reset();
+//					  $(':focus').blur();
+                        // 添加form标识
+                        layero.addClass('layui-form');
+                        // 将保存按钮改变成提交按钮
+                        layero.find('.layui-layer-btn0').attr({
+                            'lay-filter': 'formDemo',
+                            'lay-submit': ''
+                        });
+                        //重新渲染
+                        form.render();
+
+
 				},
 				yes:function(index,layero){
-					var span = $("#codeSpan").html();
-					var code = $("#codeInput").val();
-					if(span!=code){
-						layer.msg('验证码输入错误', {icon: 5}); 
-						$("#codeInput").val("");
-						return false;
-					}
-					else{
-						$.ajax({
-							type:"POST",
-							contentType:"application/json",
-							url:"http://myzuul.com:9527/zifeng/land/consumer/user/add",
-							data:JSON.stringify({
-								"name":$("#nameInput").val(),
-								"password":$("#pwd1").val(),
-								"rId":1,
-								"address":$("#addInput").val(),
-								"telephone":$("#phoneInput").val()
-							}),
-							dataType:"text",
-							success:function(data){
-								layer.msg('注册成功！', {icon: 6}); 
-								layer.close(page);
-							},
-							eerror:function(){
-								layer.msg('注册错误，请稍后重试', {icon: 5}); 
-								return false;
-							}
-						});
+					 form.on('submit(formDemo)', function (data) {
+					 	
+					 	var span = $("#codeSpan").html();
+						var code = $("#codeInput").val();
 						
-					}
+	
+						if(span!=code){
+							layer.msg('验证码输入错误', {icon: 5}); 
+							$("#codeInput").val("");
+							return false;
+						}
+						else{
+							$.ajax({
+								type:"POST",
+								contentType:"application/json",
+								url:"http://myzuul.com:9527/zifeng/land/consumer/user/add",
+								data:JSON.stringify({
+									"name":$("#nameInput").val(),
+									"password":$("#pwd1").val(),
+									"rId":1,
+									"address":$("#addInput").val(),
+									"telephone":$("#phoneInput").val()
+								}),
+								dataType:"text",
+								success:function(data){
+									layer.msg('注册成功！', {icon: 6}); 
+									layer.close(page);
+								},
+								eerror:function(){
+									 layer.alert('注册错误，请稍后重试', {
+                                        skin: 'layui-layer-molv',
+                                        closeBtn: 0
+                                  })
+								}
+							});
+							
+						}
+					 });
+					
+										 
+					
 				},
 				btn2:function(index){
 					layer.close(index);

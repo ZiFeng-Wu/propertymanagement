@@ -1,0 +1,60 @@
+<!--该网页用于物业管理员来查看个人的物资采购历史-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>物资采购历史</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">物资采购历史</h1>
+	<hr class="layui-bg-blue">
+	<div style="padding: 5px;">
+	<table class="layui-hide" id="payList" lay-filter="purchaseList"></table>
+	</div>
+	
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		var id = JSON.parse(localStorage.getItem('user')).id;
+		 table.render({
+		    elem: '#payList'
+		    ,url:"http://myzuul.com:9527/zifeng/material/consumer/material/findselfmaterial/"+JSON.parse(localStorage.getItem('user')).id
+		    ,title: '物资采购历史'
+		    ,totalRow: true
+		    ,headers: {token: localStorage.getItem('token'), id:id}
+		    ,cols: [[
+		      {field:'id', title:'ID', width:270, fixed: 'left', unresize: true, sort: true, totalRowText: '合计',align:'center'}
+		      ,{field:'name', title:'商品名称', width:270, align:'center',unresize: true}
+		      ,{field:'count', title:'购买数量（件）', width:270, align:'center',unresize: true}
+		      ,{field:'date', title:'购买日期', width:270,  sort: true,align:'center',unresize: true}
+		      ,{field:'price', title:'总价', width:270, align:'center',unresize: true,totalRow: true}
+		      ,{field:'status', title:'审核状态',  align:'center',unresize: true}
+		      
+		    ]]
+		    ,page: true
+		    ,width:1650
+		    ,id:'purchaseList'
+		 });
+		 
+	
+	
+	
+	
+	
+	});
+	  </script>
+	</body>
+</html>

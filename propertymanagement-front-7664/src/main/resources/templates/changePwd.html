@@ -1,0 +1,167 @@
+<!--该网页用于用户修改密码-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>修改密码</title>
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+		<script src="layui/layui.js"></script>
+	</head>
+	
+	<style>
+		#div1{
+			position:absolute;/**绝对定位**/
+			left:50%;/**左边50%**/
+			top:50%;/**顶部50%**/
+			margin-top:-390px;/**上移-50%**/
+			margin-left:-800px;/**左移-50%**/
+			border-radius:5px
+
+		}
+	</style>
+	
+	<body>
+	<h1 style="padding-top: 20px;padding-left: 10px;">密码修改</h1>
+	<hr class="layui-bg-blue">
+	
+	
+	<div style=" width: 700px; height: 550px; "id="div1">
+	<br />
+	<br />
+	<br />
+	
+	<div style="padding: 10px;">
+		<h3>请输入初始密码</h3>
+		<hr />
+		<span style="font-size:20px;">初始密码：</span><input type="password" class="layui-input-inline" id="oldPwd" style="height: 30px;" onblur="checkold()"/>
+		<span id="oldPwdSpan" class="layui-icon" style="padding-left: 5px;"></span>
+	</div>
+	
+	
+	<br />
+	<br />
+	<br />
+	<div style="padding：10px;">
+		<h3>请输入新密码</h3>
+		<hr />
+		<span style="font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新密码：</span><input type="password" class="layui-input-inline" id="pwd1" style="height: 30px;" onblur="checkpass1()">
+		<span id="pwd1Span" class="layui-icon" style="padding-left: 5px;"> *密码长度8-16位包含大、小字母和数字</span>
+	</div>
+	
+	<br />
+	<br />
+	<br />
+	
+	<div style="padding: 10px;">
+		<h3>请再次输入新密码</h3>
+		<hr />
+		<span style="font-size:20px;">&nbsp;确认密码：</span><input type="password"  class="layui-input-inline" id="pwd2" style="height: 30px;" onblur="checkpass2()">
+		<span id="pwd2Span" class="layui-icon" style="padding-left: 5px;"></span>
+	</div>
+	
+	<br />
+	<br />
+	<div style="text-align: center;">
+		<button type="button" class="layui-btn" style="padding-bottom: 10px; " id="submit">确认修改</button>
+	</div>
+	
+	
+	
+	</div>
+
+		
+		
+	<script type="text/javascript">
+	layui.use([ 'jquery', 'layer', 'form', 'table','laydate'], function() {
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		var form = layui.form;
+		var table = layui.table;
+		var laydate=layui.laydate;
+		
+		$("#submit").click(function(){
+			layer.confirm("确定修改?");
+			var data1 = JSON.parse(localStorage.getItem("user"));
+			data1.password=md5($("#pwd1").val()+"19970825");
+			$.ajax({
+				type:"post",
+				url:"http://myzuul.com:9527/zifeng/land/consumer/user/updatepk",
+				contentType: "application/json",
+				data:JSON.stringify(data1),
+				headers: {token: localStorage.getItem('token'), id:JSON.parse(localStorage.getItem("user")).id},
+				success: function(){
+					layer.msg('修改密码成功！', {icon: 6}); 
+					localStorage.setItem("user",JSON.stringify(data1));
+					document.cookie="id="+JSON.parse(localStorage.getItem('user')).id;
+					window.setTimeout("window.location.href='http://localhost:7664/payList'", 1000);
+					
+				},
+				error:function(){
+					layer.msg('修改密码失败，请稍后重试', {icon: 5}); 
+				}
+			});
+			
+		});
+	
+	
+	
+	});
+	
+		function checkold(){
+			var pwd = JSON.parse(localStorage.getItem("user")).password;
+			var pwd2 = md5($("#oldPwd").val()+"19970825");
+			pwd2=md5(pwd2+"19970825");
+			if(pwd2!=pwd){
+				$("#oldPwdSpan").html("旧密码错误&#x1006;");
+				$("#oldPwdSpan").css("color","red");
+			}
+				
+			else{
+				$("#oldPwdSpan").html("旧密码验证成功&#xe605;");
+				$("#oldPwdSpan").css("color","green");
+			}
+				
+		}
+		
+		
+		//验证密码
+	function checkpass1(){
+		var pwd1 = $("#pwd1").val();
+		var pwd2 = $("#pwd2").val();
+		var reg =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+		var pwd1Span = $("#pwd1Span");
+		if(reg.test(pwd1)){
+			pwd1Span.html("密码符合规范&#xe605;");
+			pwd1Span.css("color","green");
+		}
+		else{
+			pwd1Span.html("密码不符合规范&#x1006;");
+			pwd1Span.css("color","red");
+		}
+		checkpass2();
+	}
+	
+	//密码对比
+	function checkpass2(){
+		var pwd1 = $("#pwd1").val();
+		var pwd2 = $("#pwd2").val();
+		var pwd2Span = $("#pwd2Span");
+		if(pwd1==pwd2){
+			pwd2Span.html("两次密码输入一致&#xe605;");
+			pwd2Span.css("color","green");
+		}
+		else{
+			pwd2Span.html("两次密码输入不一致&#x1006;");
+			pwd2Span.css("color","red");
+		}
+		
+	}
+	</script>
+	
+	
+	</body>
+</html>

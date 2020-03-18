@@ -1,11 +1,10 @@
 package com.scau.zifeng.controller;
 
 import com.scau.zifeng.entities.MessageBoard;
+import com.scau.zifeng.jsonFormat.JsonFormat;
 import com.scau.zifeng.service.MessageClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class MessageController_Feign {
@@ -21,7 +20,7 @@ public class MessageController_Feign {
     //查看留言板
     @RequestMapping(value="/consumer/message/findmessage",method = RequestMethod.GET)
     public @ResponseBody
-    List<MessageBoard> findMessage(){
-        return this.messageClientService.findMessage();
+    JsonFormat findMessage(@RequestParam("page") String page,@RequestParam("limit") String limit){
+        return this.messageClientService.findMessage(limit,page);
     }
 }
